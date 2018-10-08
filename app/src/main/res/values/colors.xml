@@ -3,6 +3,11 @@
     <color name="colorPrimary">#d50000</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="primary">#e74c3c</color>
+    <color name="primary_dark">#c13f31</color>
+    <color name="accent">#f8745c</color>
+    <color name="transparent_black_ten_percent">#1A000000</color>
+    <color name="gray">#a7a9ac</color>
+    <color name="dark_gray">#383b40</color>
     <color name="nametext"></color>
 </resources>
