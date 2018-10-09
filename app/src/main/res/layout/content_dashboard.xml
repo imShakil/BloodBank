@@ -8,8 +8,6 @@
     tools:context=".Dashboard"
     tools:showIn="@layout/app_bar_dashboard">]
 
-    <include
-        layout="@layout/activity_main"/>
 
 
 </android.support.constraint.ConstraintLayout>

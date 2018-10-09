@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "833491037998-bkcgv41gka85v5kibsc1l2ms4a7thbla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.iunoob.bloodbank",
+            "certificate_hash": "dcb94ea92b95d9569b1a8d06d594593deb56f3ab"
+          }
+        },
+        {
           "client_id": "833491037998-njpmg1op2sidm6eiie1j0g21kr4gq3g4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833491037998-njpmg1op2sidm6eiie1j0g21kr4gq3g4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
