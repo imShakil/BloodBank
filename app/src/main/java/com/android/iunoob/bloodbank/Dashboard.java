@@ -70,6 +70,13 @@ public class Dashboard extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.donateinfo) {
+            return true;
+        }
+        if (id == R.id.devinfo) {
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -80,17 +87,15 @@ public class Dashboard extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.blood_storage){
 
-        } else if (id == R.id.nav_send) {
+        } else if(id == R.id.nearby_hospital) {
 
         }
 

@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/donateinfo"
+        android:orderInCategory="99"
+        android:title="Information"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/devinfo"
+        android:title="Dev Info"
+        android:orderInCategory="101"
         app:showAsAction="never" />
 </menu>

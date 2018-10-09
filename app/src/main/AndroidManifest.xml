@@ -31,16 +31,27 @@
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".RestorePassword"></activity>
+        <activity
+            android:label="Registration"
+            android:name=".SignupActivity">
+        </activity>
+        <activity
+            android:label="Reset Password"
+            android:name=".RestorePassword">
+        </activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/AppTheme.Splash">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginView"
+            android:label="@string/title_activity_login_view">
+
         </activity>
     </application>
 

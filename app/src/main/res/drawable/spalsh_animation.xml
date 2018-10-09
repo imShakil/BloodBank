@@ -2,6 +2,7 @@
 
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
+
     <item android:drawable="@drawable/_01" android:duration="33"/>
     <item android:drawable="@drawable/_02" android:duration="33"/>
     <item android:drawable="@drawable/_03" android:duration="33"/>
@@ -32,4 +33,5 @@
     <item android:drawable="@drawable/_28" android:duration="33"/>
     <item android:drawable="@drawable/_29" android:duration="33"/>
     <item android:drawable="@drawable/_30" android:duration="33"/>
+
 </animation-list>
