@@ -98,8 +98,13 @@ public class Dashboard extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home) {
+            startActivity(new Intent(Dashboard.this, MainActivity.class));
 
         } else if (id == R.id.userprofile) {
+
+            Intent intent = new Intent(Dashboard.this, DonorActivity.class);
+
+            startActivity(intent);
 
         } else if (id == R.id.user_achiev) {
 

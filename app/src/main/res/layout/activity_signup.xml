@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:clipToPadding="false"
     android:background="@drawable/red_button_bg"
+    android:clipToPadding="false"
+    android:fillViewport="true"
     android:scrollbarStyle="outsideOverlay"
     tools:context=".SignupActivity">
 
@@ -15,55 +15,115 @@
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_centerInParent="true"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/circle"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:layout_marginBottom="40dp"
+                android:background="@drawable/circle"
                 android:src="@mipmap/blood_bank_icon_round" />
 
 
             <EditText
-                android:textColor="@android:color/white"
+                android:id="@+id/input_fullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/displayName"
+                android:inputType="text"
+                android:textColor="@android:color/white" />
+
+            <EditText
                 android:id="@+id/input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
-                android:hint="@string/prompt_email" />
+                android:textColor="@android:color/white" />
 
             <EditText
-                android:textColor="@android:color/white"
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
                 android:inputType="textPassword"
-                android:hint="@string/prompt_password" />
+                android:textColor="@android:color/white" />
 
             <EditText
-                android:textColor="@android:color/white"
                 android:id="@+id/input_password_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/prompt_confirm_password"
                 android:inputType="textPassword"
-                android:hint="@string/prompt_confirm_password" />
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Birthday: " />
+
+                    <Button
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@android:color/white"
+                        android:id="@+id/datepicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="SelectDate"
+                        android:background="@drawable/red_button_bg"
+                        android:text="@string/selectdate" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sex: " />
+
+                    <Spinner
+                        android:id="@+id/gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/gender">
+
+                    </Spinner>
+                </LinearLayout>
+            </LinearLayout>
 
             <Button
-                android:textAllCaps="false"
                 android:id="@+id/button_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
+                android:background="@drawable/signin_btn"
                 android:text="@string/signup"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/signin_btn" />
-
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

@@ -57,14 +57,14 @@ public class RestorePassword extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful())
                                     {
-                                        Toast.makeText(getApplicationContext(), "We have sent password to "+" '"+ email +"'. Please check your email.", Toast.LENGTH_LONG)
+                                        Toast.makeText(getApplicationContext(), "We have sent an email to "+" '"+ email +"'. Please check your email.", Toast.LENGTH_LONG)
                                                 .show();
 
                                         useremail.setText(null);
                                     }
                                     else
                                     {
-                                        Toast.makeText(getApplicationContext(), "Sorry, There is something went wrong. please try some time later.", Toast.LENGTH_LONG)
+                                        Toast.makeText(getApplicationContext(), "Sorry, There is something went wrong. please try again some time later.", Toast.LENGTH_LONG)
                                                 .show();
                                         useremail.setText(null);
                                     }

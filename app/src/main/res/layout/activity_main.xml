@@ -5,32 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/red_button_bg"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:textColor="@color/colorPrimary"
+                android:textAllCaps="false"
+                android:id="@+id/btndonors"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Donors" />
+            <Button
+                android:textColor="@color/colorPrimary"
+                android:textAllCaps="false"
+                android:id="@+id/btnbloodreqst"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blood Request"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/reqst"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
+            <ListView
+                android:id="@+id/reqstList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/donors"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Donors" />
-        <Button
-            android:id="@+id/bloodreqst"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Blood Request"/>
-        <Button
-            android:id="@+id/bloodbank"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Blood Bank" />
-
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ListView
+                android:id="@+id/donorsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

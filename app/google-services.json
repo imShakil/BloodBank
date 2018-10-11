@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "833491037998",
-    "firebase_url": "https://blood-bank-53fd9.firebaseio.com",
-    "project_id": "blood-bank-53fd9",
-    "storage_bucket": "blood-bank-53fd9.appspot.com"
+    "project_number": "168113844797",
+    "firebase_url": "https://blood-bank-database.firebaseio.com",
+    "project_id": "blood-bank-database",
+    "storage_bucket": "blood-bank-database.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:833491037998:android:8c3c3a8c73fb8254",
+        "mobilesdk_app_id": "1:168113844797:android:8c3c3a8c73fb8254",
         "android_client_info": {
           "package_name": "com.android.iunoob.bloodbank"
         }
       },
       "oauth_client": [
         {
-          "client_id": "833491037998-bkcgv41gka85v5kibsc1l2ms4a7thbla.apps.googleusercontent.com",
+          "client_id": "168113844797-jgav0mn9ckf1j659q77r8qnbf5h4kvni.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.android.iunoob.bloodbank",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "833491037998-njpmg1op2sidm6eiie1j0g21kr4gq3g4.apps.googleusercontent.com",
+          "client_id": "168113844797-g45rte55k6ov36kqhv9i5ee6crggsuk9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDs_e-WtSgVVQ-FmhQVVBkS80y0CRq0LuM"
+          "current_key": "AIzaSyAX-e-7ickgMSuWrOwWRVcKaCbyTwj8yEw"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "833491037998-njpmg1op2sidm6eiie1j0g21kr4gq3g4.apps.googleusercontent.com",
+              "client_id": "168113844797-g45rte55k6ov36kqhv9i5ee6crggsuk9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

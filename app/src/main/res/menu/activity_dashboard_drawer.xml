@@ -24,19 +24,19 @@
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
-            android:title="Sign out" />
+            android:title="@string/lgout" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Emergency">
         <menu>
             <item
                 android:id="@+id/blood_storage"
-                android:icon="@drawable/ic_storage_black_24dp"
-                android:title="Blood Storage" />
+                android:icon="@drawable/ic_blood_donation"
+                android:title="@string/fndBlood" />
             <item
                 android:id="@+id/nearby_hospital"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Nearby Hospitals" />
+                android:icon="@drawable/ic_medical"
+                android:title="@string/nearH" />
         </menu>
     </item>
 

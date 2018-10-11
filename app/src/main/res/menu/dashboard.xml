@@ -4,7 +4,7 @@
     <item
         android:id="@+id/donateinfo"
         android:orderInCategory="99"
-        android:title="Information"
+        android:title="@string/bloodinfo"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
@@ -13,7 +13,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/devinfo"
-        android:title="Dev Info"
+        android:title="@string/devinfo"
         android:orderInCategory="101"
         app:showAsAction="never" />
 </menu>
