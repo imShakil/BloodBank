@@ -6,12 +6,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_gravity="center"
         android:padding="5dp"
-        android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="match_parent">
         <ImageView
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle"
@@ -25,13 +23,13 @@
             android:padding="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView
                 android:textSize="18sp"
                 android:id="@+id/donorName"
                 android:text="Mobarak Hosen Shakil"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/widget_edittext_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <LinearLayout

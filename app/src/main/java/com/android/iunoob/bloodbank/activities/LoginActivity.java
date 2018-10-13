@@ -1,4 +1,4 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.iunoob.bloodbank.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button fblog, twlog, signin, signup, resetpass;
+    private Button signin, signup, resetpass;
     private EditText inputemail, inputpassword;
     private FirebaseAuth mAuth;
     private ProgressDialog pd;
@@ -35,6 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         pd.setCanceledOnTouchOutside(false);
 
         mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() != null)
+        {
+            Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+            startActivity(intent);
+            finish();
+        }
+
 
         inputemail = findViewById(R.id.input_username);
         inputpassword = findViewById(R.id.input_password);
@@ -55,21 +63,21 @@ public class LoginActivity extends AppCompatActivity {
                         pd.show();
                         mAuth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Authentication Failed",
-                                            Toast.LENGTH_LONG).show();
-                                    Log.v("error", task.getException().getMessage());
-                                } else {
-                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                pd.dismiss();
-                            }
-                        });
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Authentication Failed",
+                                                    Toast.LENGTH_LONG).show();
+                                            Log.v("error", task.getException().getMessage());
+                                        } else {
+                                            Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        pd.dismiss();
+                                    }
+                                });
                     }
                     else
                     {
@@ -98,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
 }

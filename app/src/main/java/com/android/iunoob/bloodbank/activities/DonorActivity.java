@@ -1,4 +1,4 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.activities;
 
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.iunoob.bloodbank.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

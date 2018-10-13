@@ -1,4 +1,4 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.viewmodels;
 
 import java.io.Serializable;
 
@@ -9,15 +9,15 @@ import java.io.Serializable;
  Email: mhshakil_ice_iu@yahoo.com
  ***/
 
-public class CustomUserList implements Serializable {
+public class CustomUserData implements Serializable {
     private String Address, Division, Contact, PatientDescp;
     private String Name, BloodGroup, LastDonation;
 
-    public CustomUserList() {
+    public CustomUserData() {
 
     }
 
-    public CustomUserList(String Name, String address, String division, String bloodGroup, String contact, String patientDescp) {
+    public CustomUserData(String Name, String address, String division, String bloodGroup, String contact, String patientDescp) {
         this.Name = Name;
         this.Address = address;
         this.Division = division;
@@ -26,7 +26,7 @@ public class CustomUserList implements Serializable {
         this.PatientDescp = patientDescp;
     }
 
-    public CustomUserList(String name, String bloodGroup, String lastDonation) {
+    public CustomUserData(String name, String bloodGroup, String lastDonation) {
         this.Name = name;
         this.BloodGroup = bloodGroup;
         this.LastDonation = lastDonation;

@@ -1,4 +1,4 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.iunoob.bloodbank.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -105,18 +106,14 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.makeText(SignupActivity.this, "Registration failed! try agian.", Toast.LENGTH_LONG)
                                                     .show();
                                             Log.v("error", task.getException().getMessage());
-                                            //inputpassword.setText(null);
-                                           // retypePassword.setText(null);
                                         }
                                         else
                                         {
-                                            String id = db_ref.push().getKey();
-
-                                            //User user = new User(email, Name, Gender, bDate);
-                                            db_ref.child(id).child("User ID").setValue(id);
-                                            db_ref.child(id).child("User Name").setValue(Name);
-                                            db_ref.child(id).child("User Gender").setValue(Gender);
-                                            db_ref.child(id).child("User Birthdate").setValue(bDate);
+                                            String id = mAuth.getCurrentUser().getUid();
+                                            db_ref.child(id).child("Name").setValue(Name);
+                                            db_ref.child(id).child("Email").setValue(mAuth.getCurrentUser().getEmail());
+                                            db_ref.child(id).child("Gender").setValue(Gender);
+                                            db_ref.child(id).child("Birthdate").setValue(bDate);
 
                                             Toast.makeText(getApplicationContext(), "Your account has been created! Sign in Now.", Toast.LENGTH_LONG)
                                                     .show();

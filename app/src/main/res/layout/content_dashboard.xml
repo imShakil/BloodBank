@@ -5,8 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Dashboard"
+    tools:context=".activities.Dashboard"
     tools:showIn="@layout/app_bar_dashboard">
+
+
+    <FrameLayout
+        android:id="@+id/fragment_contianer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

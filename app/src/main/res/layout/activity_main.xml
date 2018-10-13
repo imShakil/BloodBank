@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/red_button_bg"
-    tools:context=".MainActivity">
+    tools:context=".fragments.MainActivity">
 
-    <LinearLayout
+   <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/widget_edittext_dark"
+                android:background="@color/primary_dark"
                 android:textAllCaps="false"
                 android:id="@+id/btndonors"
                 android:layout_weight="1"
@@ -26,6 +27,7 @@
                 android:text="Recent Donors" />
             <Button
                 android:textColor="@color/colorPrimary"
+                android:background="@android:color/white"
                 android:textAllCaps="false"
                 android:id="@+id/btnbloodreqst"
                 android:layout_weight="1"
@@ -34,7 +36,7 @@
                 android:text="Blood Request"/>
         </LinearLayout>
         <RelativeLayout
-            android:id="@+id/reqst"
+            android:id="@+id/reqstLayout"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -47,7 +49,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/donors"
+            android:id="@+id/donorsLayout"
             android:visibility="visible"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -59,5 +61,4 @@
             </ListView>
         </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

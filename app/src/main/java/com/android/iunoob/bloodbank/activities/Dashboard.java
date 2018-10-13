@@ -1,10 +1,10 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,14 +14,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.android.iunoob.bloodbank.R;
+import com.android.iunoob.bloodbank.fragments.AchievmentsView;
+import com.android.iunoob.bloodbank.fragments.MainActivity;
+import com.android.iunoob.bloodbank.fragments.ProfileView;
+import com.android.iunoob.bloodbank.viewmodels.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.android.iunoob.bloodbank.R.id.home;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
+    private TextView getUserName;
+    private TextView getUserEmail;
+    private FirebaseDatabase user_db;
+    private FirebaseUser cur_user;
+    private DatabaseReference userdb_ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +48,12 @@ public class Dashboard extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
 
         mAuth = FirebaseAuth.getInstance();
+        user_db = FirebaseDatabase.getInstance();
+        cur_user = mAuth.getCurrentUser();
+        userdb_ref = user_db.getReference("users");
 
+        getUserEmail = findViewById(R.id.UserEmailView);
+        getUserName = findViewById(R.id.UserNameView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,7 +74,43 @@ public class Dashboard extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+        getUserEmail = (TextView) header.findViewById(R.id.UserEmailView);
+        getUserName = (TextView) header.findViewById(R.id.UserNameView);
+
+        Query singleuser = userdb_ref.child(cur_user.getUid());
+
+        singleuser.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //pd.show();
+                String email = dataSnapshot.getValue(UserData.class).getEmail();
+                String name = dataSnapshot.getValue(UserData.class).getName();
+
+                getUserName.setText(name);
+                getUserEmail.setText(email);
+               // pd.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        if(savedInstanceState == null)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new ProfileView()).commit();
+            navigationView.getMenu().getItem(0).setChecked(true);
+
+        }
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -97,16 +157,14 @@ public class Dashboard extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.home) {
-            startActivity(new Intent(Dashboard.this, MainActivity.class));
+        if (id == home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new ProfileView()).commit();
 
         } else if (id == R.id.userprofile) {
 
-            Intent intent = new Intent(Dashboard.this, DonorActivity.class);
-
-            startActivity(intent);
-
-        } else if (id == R.id.user_achiev) {
+        }
+        else if (id == R.id.user_achiev) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new AchievmentsView()).commit();
 
         } else if (id == R.id.blood_storage){
 

@@ -1,6 +1,7 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.iunoob.bloodbank.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,8 +61,8 @@ public class RestorePassword extends AppCompatActivity {
                                     {
                                         Toast.makeText(getApplicationContext(), "We have sent an email to "+" '"+ email +"'. Please check your email.", Toast.LENGTH_LONG)
                                                 .show();
-
-                                        useremail.setText(null);
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                        //useremail.setText(null);
                                     }
                                     else
                                     {

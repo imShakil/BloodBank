@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:fillViewport="true"
     android:scrollbarStyle="outsideOverlay"
-    tools:context=".SignupActivity">
+    tools:context=".activities.SignupActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

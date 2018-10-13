@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blood Bank</string>
+    <string name="app_name">Blood Point</string>
     <string name="donor_name">Donor Name</string>
     <string name="donor_address">Donor Address</string>
     <string name="donor_age">Donor Age</string>
@@ -51,6 +51,7 @@
     <string name="lgout">Log out</string>
     <string name="devinfo">About us</string>
     <string name="bloodinfo">Blood Info</string>
+    <string name="userrachiev">Your Achievments:</string>
 
 
     <string-array name="division_list">

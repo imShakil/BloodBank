@@ -1,10 +1,13 @@
-package com.android.iunoob.bloodbank;
+package com.android.iunoob.bloodbank.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.android.iunoob.bloodbank.viewmodels.CustomUserData;
+import com.android.iunoob.bloodbank.R;
 
 import java.util.List;
 
@@ -15,24 +18,24 @@ import java.util.List;
  Email: mhshakil_ice_iu@yahoo.com
  ***/
 
-public class RecentDonorAdapter extends BaseAdapter {
+public class BloodRequestAdapter extends BaseAdapter {
 
     Context mcontext;
-    List<CustomUserList> customUserLists;
+    List<CustomUserData> customUserData;
 
-    public RecentDonorAdapter(Context mcontext, List<CustomUserList> customUserLists) {
+    public BloodRequestAdapter(Context mcontext, List<CustomUserData> customUserData) {
         this.mcontext = mcontext;
-        this.customUserLists = customUserLists;
+        this.customUserData = customUserData;
     }
 
     @Override
     public int getCount() {
-        return customUserLists.size();
+        return customUserData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return customUserLists.get(position);
+        return customUserData.get(position);
     }
 
     @Override
@@ -50,9 +53,9 @@ public class RecentDonorAdapter extends BaseAdapter {
         blooddgroup = (TextView) view.findViewById(R.id.setBloodGroup);
         donateDate =  (TextView) view.findViewById(R.id.donated);
 
-        Name.setText(customUserLists.get(position).getName());
-        blooddgroup.setText(customUserLists.get(position).getBloodGroup());
-        donateDate.setText(customUserLists.get(position).getLastDonation());
+        Name.setText(customUserData.get(position).getName());
+        blooddgroup.setText(customUserData.get(position).getBloodGroup());
+        donateDate.setText(customUserData.get(position).getLastDonation());
 
         return view;
     }

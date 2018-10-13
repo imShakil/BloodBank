@@ -31,11 +31,11 @@
         <menu>
             <item
                 android:id="@+id/blood_storage"
-                android:icon="@drawable/ic_blood_donation"
+                android:icon="@drawable/ic_find_donor"
                 android:title="@string/fndBlood" />
             <item
                 android:id="@+id/nearby_hospital"
-                android:icon="@drawable/ic_medical"
+                android:icon="@drawable/ic_find_hospital"
                 android:title="@string/nearH" />
         </menu>
     </item>
