@@ -21,22 +21,19 @@
         android:roundIcon="@mipmap/blood_bank_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fragments.MainActivity">
-        </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".activities.Dashboard"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.SignupActivity"
-            android:label="Registration"></activity>
+            android:label="Registration" />
         <activity
             android:name=".activities.RestorePassword"
-            android:label="Reset Password"></activity>
+            android:label="Reset Password" />
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,7 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DonorActivity"></activity>
+        <activity android:name=".activities.PostActivity"></activity>
     </application>
 
 </manifest>

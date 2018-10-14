@@ -6,29 +6,26 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:background="@color/primary"
-        android:padding="2dp"
+        android:padding="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle"
-            android:padding="2dp"
-            android:src="@mipmap/blood_bank_ic_launcher_foreground"
-            android:layout_width="70dp"
-            android:layout_height="70dp" />
+            android:padding="5dp"
+            android:src="@drawable/ic_cover_logo"
+            android:layout_width="75dp"
+            android:layout_height="75dp" />
         <LinearLayout
             android:gravity="center_vertical"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:id="@+id/donorName"
                 android:text="Mobarak Hosen Shakil"
                 android:textStyle="bold"
@@ -43,24 +40,24 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray"
-                    android:text="Blood Group:"
+                    android:text="Contact No:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/setBloodGroup"
+                    android:id="@+id/setMobileNo"
                     android:textSize="18sp"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
-                    android:text="AB+"
+                    android:text="+8801234567890"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <TextView
                 android:textSize="14sp"
                 android:textStyle="bold|italic"
-                android:id="@+id/donated"
-                android:text="Donated: a days ago"
+                android:id="@+id/donorAddress"
+                android:text="Address: Kushtia, Khulna"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

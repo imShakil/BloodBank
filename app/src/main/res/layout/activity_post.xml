@@ -4,16 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/red_button_bg"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.Dashboard"
-    tools:showIn="@layout/app_bar_dashboard">
-
-    <FrameLayout
-        android:id="@+id/fragmentcontainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+    tools:context=".activities.PostActivity">
 
 </LinearLayout>

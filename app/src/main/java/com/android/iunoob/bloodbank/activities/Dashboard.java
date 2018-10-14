@@ -1,5 +1,6 @@
 package com.android.iunoob.bloodbank.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,8 +19,8 @@ import android.widget.TextView;
 
 import com.android.iunoob.bloodbank.R;
 import com.android.iunoob.bloodbank.fragments.AchievmentsView;
-import com.android.iunoob.bloodbank.fragments.MainActivity;
-import com.android.iunoob.bloodbank.fragments.ProfileView;
+import com.android.iunoob.bloodbank.fragments.HomeView;
+import com.android.iunoob.bloodbank.fragments.SearchDonorFragment;
 import com.android.iunoob.bloodbank.viewmodels.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,10 +43,17 @@ public class Dashboard extends AppCompatActivity
     private FirebaseUser cur_user;
     private DatabaseReference userdb_ref;
 
+    private ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        pd = new ProgressDialog(this);
+        pd.setMessage("Loading...");
+        pd.setCancelable(true);
+        pd.setCanceledOnTouchOutside(false);
 
         mAuth = FirebaseAuth.getInstance();
         user_db = FirebaseDatabase.getInstance();
@@ -80,7 +88,7 @@ public class Dashboard extends AppCompatActivity
         getUserName = (TextView) header.findViewById(R.id.UserNameView);
 
         Query singleuser = userdb_ref.child(cur_user.getUid());
-
+        pd.show();
         singleuser.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -92,7 +100,7 @@ public class Dashboard extends AppCompatActivity
                 getUserName.setText(name);
                 getUserEmail.setText(email);
                // pd.dismiss();
-
+                pd.dismiss();
             }
 
             @Override
@@ -104,7 +112,7 @@ public class Dashboard extends AppCompatActivity
 
         if(savedInstanceState == null)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new ProfileView()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
             navigationView.getMenu().getItem(0).setChecked(true);
 
         }
@@ -158,17 +166,23 @@ public class Dashboard extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new ProfileView()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
+           // startActivity(new Intent(Dashboard.this, MainActivity.class));
 
         } else if (id == R.id.userprofile) {
 
+
         }
         else if (id == R.id.user_achiev) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contianer, new AchievmentsView()).commit();
+          ///startActivity(new Intent(Dashboard.this, DonorActivity.class));
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AchievmentsView()).commit();
 
         } else if (id == R.id.blood_storage){
 
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonorFragment()).commit();
+
         } else if (id == R.id.nearby_hospital) {
+
 
         } else if (id == R.id.user_setting) {
 

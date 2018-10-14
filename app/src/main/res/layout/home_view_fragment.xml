@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/red_button_bg"
-    tools:context=".fragments.MainActivity">
+    tools:context=".fragments.HomeView">
 
    <LinearLayout
         android:orientation="vertical"
@@ -42,6 +42,8 @@
             android:layout_height="wrap_content">
 
             <ListView
+                android:dividerHeight="2dp"
+                android:divider="@color/primary_dark"
                 android:id="@+id/reqstList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -55,6 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ListView
+                android:dividerHeight="2dp"
+                android:divider="@color/primary_dark"
                 android:id="@+id/donorsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
