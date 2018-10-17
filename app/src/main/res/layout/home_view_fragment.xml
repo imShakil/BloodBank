@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,61 +8,11 @@
     android:background="@drawable/red_button_bg"
     tools:context=".fragments.HomeView">
 
-   <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="horizontal"
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyleposts"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:textColor="@android:color/widget_edittext_dark"
-                android:background="@color/primary_dark"
-                android:textAllCaps="false"
-                android:id="@+id/btndonors"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recent Donors" />
-            <Button
-                android:textColor="@color/colorPrimary"
-                android:background="@android:color/white"
-                android:textAllCaps="false"
-                android:id="@+id/btnbloodreqst"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blood Request"/>
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/reqstLayout"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <ListView
-                android:dividerHeight="2dp"
-                android:divider="@color/primary_dark"
-                android:id="@+id/reqstList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
-        </RelativeLayout>
+    </android.support.v7.widget.RecyclerView>
 
-        <RelativeLayout
-            android:id="@+id/donorsLayout"
-            android:visibility="visible"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ListView
-                android:dividerHeight="2dp"
-                android:divider="@color/primary_dark"
-                android:id="@+id/donorsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
-        </RelativeLayout>
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

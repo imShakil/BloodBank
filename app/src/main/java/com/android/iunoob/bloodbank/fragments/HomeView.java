@@ -1,22 +1,35 @@
 package com.android.iunoob.bloodbank.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.iunoob.bloodbank.R;
-import com.android.iunoob.bloodbank.adapters.RecentDonorAdapter;
+import com.android.iunoob.bloodbank.adapters.BloodRequestAdapter;
 import com.android.iunoob.bloodbank.viewmodels.CustomUserData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /***
  Project Name: BloodBank
@@ -27,80 +40,81 @@ import java.util.List;
 
 public class HomeView extends Fragment {
 
-    ListView donorsList;
-    ListView reqstList;
+    private View view;
+    private RecyclerView recentPosts;
 
-    List<CustomUserData> donorList;
+    private DatabaseReference donor_ref;
+    FirebaseAuth mAuth;
+    private BloodRequestAdapter restAdapter;
+    private List<CustomUserData> postLists;
+    private ProgressDialog pd;
 
-    private Button btndonor, btnreqst;
-    private RelativeLayout layout_donor, layout_reqst;
+    public HomeView() {
 
-    @Nullable
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.home_view_fragment, container, false);
-        donorsList = view.findViewById(R.id.donorsList);
-        donorList = new ArrayList<>();
+        view = inflater.inflate(R.layout.home_view_fragment, container, false);
+        recentPosts = (RecyclerView) view.findViewById(R.id.recyleposts);
 
-        btndonor = view.findViewById(R.id.btndonors);
-        btnreqst = view.findViewById(R.id.btnbloodreqst);
+        recentPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        layout_donor = view.findViewById(R.id.donorsLayout);
-        layout_reqst = view.findViewById(R.id.reqstLayout);
+        donor_ref = FirebaseDatabase.getInstance().getReference();
+        postLists = new ArrayList<>();
 
-        btndonor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layout_donor.setVisibility(View.VISIBLE);
-                layout_reqst.setVisibility(View.GONE);
-                btndonor.setTextColor(getActivity().getResources().getColor(android.R.color.widget_edittext_dark));
-                btnreqst.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-                btndonor.setBackgroundColor(getActivity().getResources().getColor(R.color.primary_dark));
-                btnreqst.setBackgroundColor(getActivity().getResources().getColor(android.R.color.white));
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage("Loading...");
+        pd.setCancelable(true);
+        pd.setCanceledOnTouchOutside(false);
 
-            }
-        });
+        mAuth = FirebaseAuth.getInstance();
+        getActivity().setTitle("Blood Point");
 
-        btnreqst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layout_donor.setVisibility(View.GONE);
-                layout_reqst.setVisibility(View.VISIBLE);
-                btnreqst.setTextColor(getResources().getColor(android.R.color.widget_edittext_dark));
-                btndonor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                btnreqst.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-                btndonor.setBackgroundColor(getResources().getColor(android.R.color.white));
-            }
-        });
+        restAdapter = new BloodRequestAdapter(postLists);
+        RecyclerView.LayoutManager pmLayout = new LinearLayoutManager(getContext());
+        recentPosts.setLayoutManager(pmLayout);
+        recentPosts.setItemAnimator(new DefaultItemAnimator());
+        recentPosts.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recentPosts.setAdapter(restAdapter);
 
-        UserList();
-
-        RecentDonorAdapter adapter = new RecentDonorAdapter(getActivity(), donorList);
-
-        donorsList.setAdapter(adapter);
-
+        AddPosts();
         return view;
 
     }
-    public void UserList()
+    private void AddPosts()
     {
-        donorList.add(new CustomUserData("Shamim Hossian", "B+", "Donated: 121 day ago"));
-        donorList.add(new CustomUserData("Mobarak Hossian", "AB+", "Donated: 31 day ago"));
-        donorList.add(new CustomUserData("Mehedi Hossian", "A+", "Donated: 1 day ago"));
-        donorList.add(new CustomUserData("Akib Hossian", "AB-", "Donated: 5 day ago"));
-        donorList.add(new CustomUserData("Karim Hossian", "O+", "Donated: 87 day ago"));
-        donorList.add(new CustomUserData("Babul Hossian", "A-", "Donated: 1 day ago"));
-        donorList.add(new CustomUserData("Abul Hossian", "B+", "Donated: 10 day ago"));
-        donorList.add(new CustomUserData("Lablu Hossian", "O-", "Donated: 1 day ago"));
-        donorList.add(new CustomUserData("Bablu Hossian", "B+", "Donated: 1 day ago"));
-        donorList.add(new CustomUserData("Hablu Hossian", "A+", "Donated: 13 day ago"));
+        Query allposts = donor_ref.child("posts");
+        pd.show();
+        allposts.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-    }
+                if(dataSnapshot.exists()) {
 
-    @Override
-    public void onStart() {
-        super.onStart();
+                    for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
+                        CustomUserData customUserData = singlepost.getValue(CustomUserData.class);
+                        postLists.add(customUserData);
+                        restAdapter.notifyDataSetChanged();
+                    }
+                    pd.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Database is empty now!",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                Log.d("User", databaseError.getMessage());
+
+            }
+        });
+
     }
 
     @Override

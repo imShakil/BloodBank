@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -69,8 +69,7 @@ public class Dashboard extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(Dashboard.this, PostActivity.class));
             }
         });
 
@@ -94,17 +93,17 @@ public class Dashboard extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //pd.show();
-                String email = dataSnapshot.getValue(UserData.class).getEmail();
                 String name = dataSnapshot.getValue(UserData.class).getName();
 
                 getUserName.setText(name);
-                getUserEmail.setText(email);
-               // pd.dismiss();
+                getUserEmail.setText(cur_user.getEmail());
+
                 pd.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("User", databaseError.getMessage());
 
             }
         });
@@ -155,7 +154,6 @@ public class Dashboard extends AppCompatActivity
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,29 +165,27 @@ public class Dashboard extends AppCompatActivity
 
         if (id == home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new HomeView()).commit();
-           // startActivity(new Intent(Dashboard.this, MainActivity.class));
 
         } else if (id == R.id.userprofile) {
-
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
 
         }
         else if (id == R.id.user_achiev) {
-          ///startActivity(new Intent(Dashboard.this, DonorActivity.class));
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AchievmentsView()).commit();
 
-        } else if (id == R.id.blood_storage){
+        }
+        else if (id == R.id.logout) {
+            mAuth.signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.blood_storage){
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonorFragment()).commit();
 
         } else if (id == R.id.nearby_hospital) {
 
 
-        } else if (id == R.id.user_setting) {
-
-        } else if (id == R.id.logout) {
-            mAuth.signOut();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

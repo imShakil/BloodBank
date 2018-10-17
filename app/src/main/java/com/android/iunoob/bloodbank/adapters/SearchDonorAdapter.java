@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.iunoob.bloodbank.R;
 import com.android.iunoob.bloodbank.viewmodels.CustomUserData;
+import com.android.iunoob.bloodbank.viewmodels.DonorData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,28 +25,28 @@ import java.util.List;
  Email: mhshakil_ice_iu@yahoo.com
  ***/
 
-public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
+public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
 
 
-    private List<CustomUserData> postLists;
+    private List<DonorData> postLists;
 
     public class PostHolder extends RecyclerView.ViewHolder
     {
-        TextView Name, bloodgroup, Address, contact, posted;
+        TextView Name, Address, contact, posted, totaldonate;
 
         public PostHolder(@NonNull View itemView) {
             super(itemView);
 
-            Name = itemView.findViewById(R.id.reqstUser);
-            contact = itemView.findViewById(R.id.targetCN);
-            bloodgroup = itemView.findViewById(R.id.targetBG);
-            Address = itemView.findViewById(R.id.reqstLocation);
-            posted = itemView.findViewById(R.id.posted);
+            Name = itemView.findViewById(R.id.donorName);
+            contact = itemView.findViewById(R.id.donorContact);
+            totaldonate = itemView.findViewById(R.id.totaldonate);
+            Address = itemView.findViewById(R.id.donorAddress);
+            posted = itemView.findViewById(R.id.lastdonate);
 
         }
     }
 
-    public BloodRequestAdapter(List<CustomUserData> postLists)
+    public SearchDonorAdapter(List<DonorData> postLists)
     {
         this.postLists = postLists;
     }
@@ -54,7 +55,7 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
     public PostHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View listitem = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.request_list_item, viewGroup, false);
+                .inflate(R.layout.search_donor_item, viewGroup, false);
 
         return new PostHolder(listitem);
     }
@@ -70,13 +71,13 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
         {
             postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
+        DonorData donorData = postLists.get(i);
+        postHolder.Name.setText("Name: "+donorData.getDonorName());
+        postHolder.contact.setText(donorData.getDonorContact());
+        postHolder.Address.setText("Address: "+donorData.getAddress());
+        postHolder.totaldonate.setText("Total Donation: "+donorData.getTotalDonate()+" times");
+        postHolder.posted.setText("Last Donation: "+donorData.getLastDonate());
 
-        CustomUserData customUserData = postLists.get(i);
-        postHolder.Name.setText("Posted by: "+customUserData.getName());
-        postHolder.Address.setText("From: "+customUserData.getAddress()+", "+customUserData.getDivision());
-        postHolder.bloodgroup.setText("Needs "+customUserData.getBloodGroup());
-        postHolder.posted.setText("Posted on:"+customUserData.getTime()+", "+customUserData.getDate());
-        postHolder.contact.setText(customUserData.getContact());
 
     }
 

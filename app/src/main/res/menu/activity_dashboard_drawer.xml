@@ -18,10 +18,6 @@
             android:icon="@drawable/ic_menu_achievements"
             android:title="@string/achiev" />
         <item
-            android:id="@+id/user_setting"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/profielsetting" />
-        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/lgout" />

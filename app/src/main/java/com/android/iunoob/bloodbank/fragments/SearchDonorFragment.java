@@ -5,13 +5,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.iunoob.bloodbank.R;
+import com.android.iunoob.bloodbank.adapters.SearchDonorAdapter;
+import com.android.iunoob.bloodbank.viewmodels.DonorData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  Project Name: BloodBank
@@ -30,16 +41,20 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SearchDonorFragment extends Fragment {
 
-    View view;
+    private View view;
 
     FirebaseAuth mAuth;
     FirebaseUser fuser;
     FirebaseDatabase fdb;
-    DatabaseReference db_ref;
+    DatabaseReference db_ref, user_ref;
 
     Spinner bloodgroup, division;
     Button btnsearch;
     ProgressDialog pd;
+    List<DonorData> donorItem;
+    private RecyclerView recyclerView;
+
+    private SearchDonorAdapter sdadapter;
 
     public SearchDonorFragment() {
 
@@ -56,6 +71,17 @@ public class SearchDonorFragment extends Fragment {
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
 
+        donorItem = new ArrayList<>();
+        sdadapter = new SearchDonorAdapter(donorItem);
+        recyclerView = (RecyclerView) view.findViewById(R.id.showDonorList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView.LayoutManager searchdonor = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(searchdonor);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(sdadapter);
+
+
         mAuth = FirebaseAuth.getInstance();
         fuser = mAuth.getCurrentUser();
         fdb = FirebaseDatabase.getInstance();
@@ -65,24 +91,42 @@ public class SearchDonorFragment extends Fragment {
         division = view.findViewById(R.id.btngetDivison);
         btnsearch = view.findViewById(R.id.btnSearch);
 
-        final Query qpath  = db_ref.child(bloodgroup.getSelectedItem().toString()).child(division.getSelectedItem().toString());
+        getActivity().setTitle("Find Blood Donor");
 
         btnsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pd.show();
+                Query qpath  = db_ref.child(division.getSelectedItem().toString())
+                        .child(bloodgroup.getSelectedItem().toString());
+                qpath.addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                       if(dataSnapshot.exists())
+                       {
+                           for(DataSnapshot singleitem : dataSnapshot.getChildren())
+                           {
+                               DonorData donorData = singleitem.getValue(DonorData.class);
+                               donorItem.add(donorData);
+                               sdadapter.notifyDataSetChanged();
+                           }
+                       }
+                       else
+                       {
 
-                qpath.addValueEventListener(new ValueEventListener() {
+                           Toast.makeText(getActivity(), "Database is empty now!",
+                                   Toast.LENGTH_LONG).show();
 
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                       }
+                   }
 
-                    }
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError databaseError) {
+                       Log.d("User", databaseError.getMessage());
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                   }
+               });
+               pd.dismiss();
             }
         });
 

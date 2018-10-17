@@ -2,8 +2,5 @@
     <item name="ic_home" type="drawable">@drawable/ic_home</item>
     <item name="ic_profile_overview" type="drawable">@drawable/ic_profile_overview</item>
     <item name="ic_menu_achievements" type="drawable">@drawable/ic_menu_achievements</item>
-    <item name="ic_settings" type="drawable">@drawable/ic_settings</item>
     <item name="ic_logout" type="drawable">@drawable/ic_logout</item>
-    <item name="ic_blood_donation" type="drawable">@drawable/ic_blood_donation</item>
-    <item name="ic_medical" type="drawable">@drawable/ic_medical</item>
 </resources>

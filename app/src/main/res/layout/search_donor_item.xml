@@ -22,22 +22,12 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:orientation="horizontal"
+
+            <TextView
+                android:id="@+id/donorName"
+                android:text="Name: Alamin Hossain"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/targetBG"
-                    android:textSize="16sp"
-                    android:text="AB+"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text=" Blood Donor!"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -47,26 +37,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/targetCN"
+                    android:id="@+id/donorContact"
                     android:onClick="btnCallNow"
                     android:text="+8801234567890"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <TextView
-                android:id="@+id/reqstUser"
-                android:text="Requested by: Alamin Hossain"
+                android:id="@+id/donorAddress"
+                android:text="Address: Kushtia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/posted"
-                android:text="Posted: 11:30 PM, 17/10/2018"
+                android:id="@+id/totaldonate"
+                android:text="Total Donation: 0 times"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/reqstLocation"
-                android:text="From: Kushtia, Khulna"
+                android:id="@+id/lastdonate"
+                android:text="Last Donation: not yet donated!"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

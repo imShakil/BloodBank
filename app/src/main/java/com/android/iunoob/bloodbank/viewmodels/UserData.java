@@ -9,46 +9,66 @@ package com.android.iunoob.bloodbank.viewmodels;
 
 public class UserData {
 
-    private String Name;
-    private String Email;
-    private String Gender;
-    private String Birthdate;
+    private String Name, Email, Contact, Address;
+    private int Gender, BloodGroup, Division;
 
     public UserData() {
 
     }
 
+    public String getContact() {
+        return Contact;
+    }
 
+    public void setContact(String contact) {
+        Contact = contact;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        this.Address = address;
+    }
+
+    public int getDivision() {
+        return Division;
+    }
+
+    public void setDivision(int division) {
+        this.Division = division;
+    }
 
     public String getName() {
         return Name;
+    }
+
+    public int getBloodGroup() {
+        return BloodGroup;
+    }
+
+    public void setBloodGroup(int bloodGroup) {
+        this.BloodGroup = bloodGroup;
     }
 
     public String getEmail() {
         return Email;
     }
 
-    public String getGender() {
+    public int getGender() {
         return Gender;
     }
 
-    public String getBirthdate() {
-        return Birthdate;
-    }
-
-    public void setName(String name) {
-        this.Name = name;
-    }
+    public void setName(String name) { this.Name = name; }
 
     public void setEmail(String email) {
         this.Email = email;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.Gender = gender;
     }
 
-    public void setBirthdate(String birthdate) {
-        Birthdate = birthdate;
-    }
+
 }
