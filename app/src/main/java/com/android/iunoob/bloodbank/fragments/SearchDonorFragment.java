@@ -64,22 +64,14 @@ public class SearchDonorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.search_donor_fragment, container, false);
+        view = inflater.inflate(R.layout.search_donor_fragment, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("Loading...");
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
 
-        donorItem = new ArrayList<>();
-        sdadapter = new SearchDonorAdapter(donorItem);
-        recyclerView = (RecyclerView) view.findViewById(R.id.showDonorList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerView.LayoutManager searchdonor = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(searchdonor);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(sdadapter);
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -97,6 +89,16 @@ public class SearchDonorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 pd.show();
+                donorItem = new ArrayList<>();
+                donorItem.clear();
+                sdadapter = new SearchDonorAdapter(donorItem);
+                recyclerView = (RecyclerView) view.findViewById(R.id.showDonorList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                RecyclerView.LayoutManager searchdonor = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(searchdonor);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+                recyclerView.setAdapter(sdadapter);
                 Query qpath  = db_ref.child(division.getSelectedItem().toString())
                         .child(bloodgroup.getSelectedItem().toString());
                 qpath.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -129,7 +131,6 @@ public class SearchDonorFragment extends Fragment {
                pd.dismiss();
             }
         });
-
         return view;
     }
 

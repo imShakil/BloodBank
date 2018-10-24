@@ -24,9 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -115,9 +113,9 @@ public class PostActivity extends AppCompatActivity {
             btnpost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    pd.show();
                     final Query findname = fdb.getReference("users").child(uid);
 
-                    pd.show();
                     if(text1.getText().length() == 0)
                     {
                         Toast.makeText(getApplicationContext(), "Enter your contact number!",
@@ -159,7 +157,6 @@ public class PostActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    pd.dismiss();
                 }
             });
         }
@@ -167,6 +164,7 @@ public class PostActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+        pd.dismiss();
 
     }
 

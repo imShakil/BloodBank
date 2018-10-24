@@ -30,7 +30,7 @@
                     android:id="@+id/targetBG"
                     android:textSize="16sp"
                     android:text="AB+"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#F8F8F8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/targetCN"
-                    android:onClick="btnCallNow"
                     android:text="+8801234567890"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

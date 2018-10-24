@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/primary"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/TF_location"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:hint="Enter place name"
+        android:inputType="textPersonName" />
+
+    <ImageButton
+        android:id="@+id/B_search"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/TF_location"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_search_black_24dp"
+        android:text="Search" />
+
+    <fragment
+        android:id="@+id/gMap"
+        android:layout_below="@id/B_search"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/showHospital"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="H"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:backgroundTint="@color/primary"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-288dp"
+        android:layout_marginTop="46dp"
+        android:layout_toEndOf="@+id/TF_location"
+        android:background="@drawable/signin_btn" />
+
+</RelativeLayout>

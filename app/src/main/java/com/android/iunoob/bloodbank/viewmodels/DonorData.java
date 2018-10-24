@@ -10,18 +10,18 @@ package com.android.iunoob.bloodbank.viewmodels;
 public class DonorData {
 
     private int TotalDonate;
-    private String LastDonate, donorName, donorContact, UID, Address;
+    private String LastDonate, Name, Contact, UID, Address;
 
 
     public DonorData() {
 
     }
 
-    public DonorData(int totalDonate, String lastDonate, String donorName, String donorContact, String Address, String UID) {
+    public DonorData(int totalDonate, String lastDonate, String Name, String Contact, String Address, String UID) {
         this.TotalDonate = totalDonate;
         this.LastDonate = lastDonate;
-        this.donorName = donorName;
-        this.donorContact = donorContact;
+        this.Name = Name;
+        this.Contact = Contact;
         this.UID = UID;
         this.Address = Address;
     }
@@ -50,20 +50,20 @@ public class DonorData {
         this.UID = UID;
     }
 
-    public String getDonorName() {
-        return donorName;
+    public String getName() {
+        return Name;
     }
 
     public void setDonorName(String donorName) {
-        this.donorName = donorName;
+        this.Name = Name;
     }
 
-    public String getDonorContact() {
-        return donorContact;
+    public String getContact() {
+        return Contact;
     }
 
-    public void setDonorContact(String donorContact) {
-        this.donorContact = donorContact;
+    public void setContact(String donorContact) {
+        this.Contact = Contact;
     }
 
     public String getAddress() {

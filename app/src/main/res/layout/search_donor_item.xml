@@ -38,7 +38,6 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/donorContact"
-                    android:onClick="btnCallNow"
                     android:text="+8801234567890"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

@@ -11,12 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.iunoob.bloodbank.R;
-import com.android.iunoob.bloodbank.viewmodels.DonorData;
 import com.android.iunoob.bloodbank.viewmodels.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
 
+        pd.show();
+
         db_User = FirebaseDatabase.getInstance();
         db_ref = db_User.getReference("users");
         donor_ref = db_User.getReference("donors");
@@ -72,6 +72,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnSignup = findViewById(R.id.button_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        pd.dismiss();
+
 
         if (mAuth.getCurrentUser() != null) {
 
@@ -86,7 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
             isUpdate = true;
 
             Query Profile = db_ref.child(mAuth.getCurrentUser().getUid());
-            pd.show();
             Profile.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,18 +96,19 @@ public class ProfileActivity extends AppCompatActivity {
                     UserData userData = dataSnapshot.getValue(UserData.class);
 
                     if (userData != null) {
+                        pd.show();
                         fullName.setText(userData.getName());
                         gender.setSelection(userData.getGender());
                         address.setText(userData.getAddress());
                         contact.setText(userData.getContact());
                         bloodgroup.setSelection(userData.getBloodGroup());
                         division.setSelection(userData.getDivision());
-
                         Query donor = donor_ref.child(division.getSelectedItem().toString())
                                 .child(bloodgroup.getSelectedItem().toString())
                                 .child(mAuth.getCurrentUser().getUid());
 
                         donor.addListenerForSingleValueEvent(new ValueEventListener() {
+
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -114,12 +116,13 @@ public class ProfileActivity extends AppCompatActivity {
                                 {
                                     isDonor.setChecked(true);
                                     isDonor.setText("Unmark this to leave from donors");
-                                    pd.dismiss();
                                 }
                                 else
                                 {
-                                    ShowError("Donor ID");
+                                    Toast.makeText(ProfileActivity.this, "Your are not a donor! Be a donor and save life by donating blood.",
+                                            Toast.LENGTH_LONG).show();
                                 }
+                                pd.dismiss();
 
                             }
 
@@ -127,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                 Log.d("User", databaseError.getMessage());
                             }
+
                         });
                     }
 
@@ -140,7 +144,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         }
-
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,7 +208,8 @@ public class ProfileActivity extends AppCompatActivity {
                                                         donor_ref.child(div).child(blood).child(id).child("LastDonate").setValue("Don't donate yet!");
                                                         donor_ref.child(div).child(blood).child(id).child("TotalDonate").setValue(0);
                                                         donor_ref.child(div).child(blood).child(id).child("Name").setValue(Name);
-                                                        donor_ref.child(div).child(blood).child(id).child("Contact").setValue(contact);
+                                                        donor_ref.child(div).child(blood).child(id).child("Contact").setValue(Contact);
+                                                        donor_ref.child(div).child(blood).child(id).child("Address").setValue(Address);
 
                                                     }
 
@@ -233,19 +237,20 @@ public class ProfileActivity extends AppCompatActivity {
                             db_ref.child(id).child("Address").setValue(Address);
                             db_ref.child(id).child("Division").setValue(Division);
 
-                            if(!(isDonor.isChecked()))
+                            if(isDonor.isChecked())
                             {
-                                donor_ref.child(div).child(blood).child(id).removeValue();
-                            }
-                            else
-                            {
-
                                 donor_ref.child(div).child(blood).child(id).child("UID").setValue(id).toString();
                                 donor_ref.child(div).child(blood).child(id).child("LastDonate").setValue("Don't donate yet!");
                                 donor_ref.child(div).child(blood).child(id).child("TotalDonate").setValue(0);
                                 donor_ref.child(div).child(blood).child(id).child("Name").setValue(Name);
-                                donor_ref.child(div).child(blood).child(id).child("Contact").setValue(contact);
+                                donor_ref.child(div).child(blood).child(id).child("Contact").setValue(Contact);
+                                donor_ref.child(div).child(blood).child(id).child("Address").setValue(Address);
 
+                            }
+                            else
+                            {
+
+                                donor_ref.child(div).child(blood).child(id).removeValue();
 
                             }
                             Toast.makeText(getApplicationContext(), "Your account has been updated!", Toast.LENGTH_LONG)

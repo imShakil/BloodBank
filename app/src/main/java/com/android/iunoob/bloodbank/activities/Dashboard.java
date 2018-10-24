@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,8 +19,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.iunoob.bloodbank.R;
+import com.android.iunoob.bloodbank.fragments.AboutUs;
 import com.android.iunoob.bloodbank.fragments.AchievmentsView;
+import com.android.iunoob.bloodbank.fragments.BloodInfo;
 import com.android.iunoob.bloodbank.fragments.HomeView;
+import com.android.iunoob.bloodbank.fragments.NearByHospitalActivity;
 import com.android.iunoob.bloodbank.fragments.SearchDonorFragment;
 import com.android.iunoob.bloodbank.viewmodels.UserData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -143,15 +147,11 @@ public class Dashboard extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.donateinfo) {
-            return true;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new BloodInfo()).commit();
         }
         if (id == R.id.devinfo) {
-            return true;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new AboutUs()).commit();
         }
 
         return super.onOptionsItemSelected(item);
@@ -184,7 +184,7 @@ public class Dashboard extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new SearchDonorFragment()).commit();
 
         } else if (id == R.id.nearby_hospital) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, new NearByHospitalActivity()).commit();
 
         }
 
@@ -216,4 +216,5 @@ public class Dashboard extends AppCompatActivity
             finish();
         }
     }
+
 }

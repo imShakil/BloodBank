@@ -1,21 +1,16 @@
 package com.android.iunoob.bloodbank.adapters;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.iunoob.bloodbank.R;
-import com.android.iunoob.bloodbank.viewmodels.CustomUserData;
 import com.android.iunoob.bloodbank.viewmodels.DonorData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /***
@@ -72,8 +67,8 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
             postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         DonorData donorData = postLists.get(i);
-        postHolder.Name.setText("Name: "+donorData.getDonorName());
-        postHolder.contact.setText(donorData.getDonorContact());
+        postHolder.Name.setText("Name: "+donorData.getName());
+        postHolder.contact.setText(donorData.getContact());
         postHolder.Address.setText("Address: "+donorData.getAddress());
         postHolder.totaldonate.setText("Total Donation: "+donorData.getTotalDonate()+" times");
         postHolder.posted.setText("Last Donation: "+donorData.getLastDonate());
