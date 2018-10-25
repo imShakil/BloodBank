@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="@string/info_"
             android:textSize="20sp"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:padding="10dp"/>
 
         <TextView
@@ -45,7 +46,8 @@
             android:background="@drawable/boarder"
             android:gravity="start"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/male_"
@@ -60,7 +62,8 @@
             android:textSize="20sp"
             android:layout_height="wrap_content"
             android:text="@string/female_"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:padding="10dp"/>
 
     </LinearLayout>

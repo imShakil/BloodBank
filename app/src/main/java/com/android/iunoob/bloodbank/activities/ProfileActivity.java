@@ -44,15 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
-
         pd = new ProgressDialog(this);
         pd.setMessage("Loading...");
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
-
         pd.show();
+        setContentView(R.layout.activity_profile);
 
         db_User = FirebaseDatabase.getInstance();
         db_ref = db_User.getReference("users");
@@ -72,8 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnSignup = findViewById(R.id.button_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pd.dismiss();
-
 
         if (mAuth.getCurrentUser() != null) {
 
@@ -81,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
             inputpassword.setVisibility(View.GONE);
             retypePassword.setVisibility(View.GONE);
             btnSignup.setText("Update Profile");
-
+            pd.dismiss();
            /// getActionBar().setTitle("Profile");
             getSupportActionBar().setTitle("Profile");
             findViewById(R.id.image_logo).setVisibility(View.GONE);
@@ -143,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
 
-        }
+        } else pd.dismiss();
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

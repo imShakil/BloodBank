@@ -32,14 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/fblogin"
                     android:layout_weight="1"
                     android:src="@drawable/facebook_circle"
                     android:layout_width="30dp"
                     android:layout_height="30dp" />
 
                 <ImageView
-                    android:id="@+id/twitterlogin"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"

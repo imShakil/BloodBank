@@ -3,8 +3,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
-    <string name="achiev">Donor Achievements</string>
-
+    <string name="achiev">Achievements</string>
 
     <!-- Strings related to login -->
     <string name="signup">Register</string>
@@ -19,22 +18,15 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="enterEmail">Enter your registered email</string>
     <string name="reset">Reset</string>
     <string name="displayName">Full Name</string>
-    <string name="selectdate">Select Date</string>
     <string name="mobile">Mobile No</string>
     <string name="userAddress">Address</string>
-    <string name="bdonor">Be a Donor</string>
-    <string name="lastdonate">Last donation:</string>
-    <string name="bloodgp">Blood Group:</string>
     <string name="nearH">Find nearest Hospitals</string>
     <string name="fndBlood">Find Blood Donor</string>
     <string name="lgout">Log out</string>
     <string name="devinfo">About us</string>
     <string name="bloodinfo">Blood Info</string>
-    <string name="userrachiev">Your Achievments:</string>
 
 
     <string-array name="division_list">
@@ -74,13 +66,12 @@
         Each year we need approximately 200000 new donors, as some donors can no longer give blood. \n
         Most people between the ages of 17-65 are able to give blood.Most people between ages of 17-65 are able to give blood. \n
         Around half our current donors are over 45. That is why we need more young people to start giving blood \n.</string>
-    <string name="aboutus">
-        This is a team projects on learning android app development.\n
+    <string name="aboutus">This is a team projects on learning android app development.\n
         Our Team Members are: \n
-                1. MObarak Hosen Shakil \n
-                2. Akib Hosen Khan \n
-                3. Shamim Hossain \n
-                4. Mehedi Hasan \n
+        1. <a href="https://facebook.com/mhiceiuk/">Mobarak Hosen Shakil</a> \n
+                2. Shamim Hossain \n
+                3. Mehedi Hasan \n
+                4. Akib Hosen Khan \n
                 5. MMR Raju \n
                 6. Abdur Rahman\n
     </string>
