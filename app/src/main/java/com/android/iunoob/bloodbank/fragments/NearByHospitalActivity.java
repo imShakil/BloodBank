@@ -1,12 +1,8 @@
 package com.android.iunoob.bloodbank.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -19,9 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.iunoob.bloodbank.R;
@@ -42,11 +35,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.IOException;
-import java.util.List;
 
 /***
  Project Name: BloodBank
@@ -95,15 +85,6 @@ public class NearByHospitalActivity extends Fragment implements
                     @Override
                     public void onSuccess(Location location) {
                         onLocationChanged(location);
-                        Object dataTransfer[] = new Object[2];
-                        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-                        String hospital = "hospital";
-                        String url = getUrl(location.getLatitude(), location.getLongitude(), hospital);
-                        dataTransfer[0] = mMap;
-                        dataTransfer[1] = url;
-                        getNearbyPlacesData.execute(dataTransfer);
-                        Toast.makeText(getActivity(), "Showing Nearby Hospitals" + url, Toast.LENGTH_SHORT).show();
-
                     }
 
                 });
@@ -234,7 +215,7 @@ public class NearByHospitalActivity extends Fragment implements
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(5));
 
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
@@ -244,7 +225,6 @@ public class NearByHospitalActivity extends Fragment implements
         dataTransfer[1] = url;
         getNearbyPlacesData.execute(dataTransfer);
         Toast.makeText(getActivity(), "Showing Nearby Hospitals" + url, Toast.LENGTH_SHORT).show();
-
 
         if (client != null) {
             fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
