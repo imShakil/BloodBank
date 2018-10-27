@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,12 +20,12 @@ import com.android.iunoob.bloodbank.R;
 import com.android.iunoob.bloodbank.viewmodels.GetNearbyPlacesData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,7 +56,6 @@ public class NearByHospitalActivity extends Fragment implements
     private Marker currentLocationmMarker = null;
     private static final int Permission_Request = 99;
     int PROXIMITY_RADIUS = 10000;
-    double latitude, longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
 
@@ -79,16 +77,6 @@ public class NearByHospitalActivity extends Fragment implements
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
-            if(checkLocationPermission())
-            {
-                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        onLocationChanged(location);
-                    }
-
-                });
-            }
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.gMap);
@@ -130,6 +118,7 @@ public class NearByHospitalActivity extends Fragment implements
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
             mMap.setTrafficEnabled(true);
+
         }
 
     }
@@ -142,15 +131,30 @@ public class NearByHospitalActivity extends Fragment implements
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-           fusedLocationProviderClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(locationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+
+        SettingsClient settingsClient = LocationServices.getSettingsClient(getActivity());
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&  ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getActivity(), "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
         }
+
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                ShowHospitals(location.getLatitude(), location.getLongitude());
+            }
+        });
+
     }
 
     private String getUrl(double latitude, double longitude, String nearbyPlace) {
@@ -167,7 +171,6 @@ public class NearByHospitalActivity extends Fragment implements
         return googlePlaceUrl.toString();
     }
 
-
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -182,6 +185,7 @@ public class NearByHospitalActivity extends Fragment implements
             return true;
     }
 
+
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -193,53 +197,39 @@ public class NearByHospitalActivity extends Fragment implements
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMap.clear();
-    }
-
-    @Override
     public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
         lastlocation = location;
-        if (currentLocationmMarker != null) {
-            currentLocationmMarker.remove();
-
-        }
-        Log.v("Current Location", "IN ON LOCATION CHANGE, lat=" + latitude + ", lon=" + longitude);
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latLng = new LatLng(location.getLatitude() , location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(5));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(0));
 
-        Object dataTransfer[] = new Object[2];
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-        String hospital = "hospital";
-        String url = getUrl(location.getLatitude(), location.getLongitude(), hospital);
-        dataTransfer[0] = mMap;
-        dataTransfer[1] = url;
-        getNearbyPlacesData.execute(dataTransfer);
-        Toast.makeText(getActivity(), "Showing Nearby Hospitals" + url, Toast.LENGTH_SHORT).show();
+    }
 
-        if (client != null) {
-            fusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(client!=null)
+        {
+            client.connect();
         }
     }
 
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            for (Location location : locationResult.getLocations()) {
-                Log.i("MainActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+   public void ShowHospitals(double latitude, double longitude)
+   {
+       mMap.clear();
+       Object dataTransfer[] = new Object[2];
+       GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+       String url = getUrl(latitude, longitude, "hospital");
+       dataTransfer[0] = mMap;
+       dataTransfer[1] = url;
 
-            }
-        }
-    };
-
-
+       getNearbyPlacesData.execute(dataTransfer);
+       Toast.makeText(getContext(), "Showing Nearby Hospitals", Toast.LENGTH_SHORT).show();
+   }
 }
