@@ -1,7 +1,7 @@
 # BloodBank
 #Donate Blood , #Save Life
 
-This is a demo projects on android app development. 
+This is a demo projects on android app development. This is project can be used any educational perpose and can be changed or modified if needed. And I'm suggesting to changed the firebase api from myself to your own api, i can't take any risk for your lost data.
 Blood bank will help people to find blood indeed , also people will able to donate blood.
 Features:
        #User Database
@@ -12,5 +12,4 @@ Features:
 
 #NB:If have some suggestions to share with me or anything, please feel free to contact with me at: 
        E-mail: mh.ice.iu@gmail.com
-       Facebook: https://m.me/mhiceiuk
 #Happy_Coding
