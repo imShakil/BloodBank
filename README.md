@@ -1,7 +1,7 @@
 # BloodBank
 #Donate Blood , #Save Life
 
-This is a simple project on android app development. This project can be used any educational perpose and can be changed or modified if needed. 
+This is a simple project on android app development. This project can be used any educational perpose and can be changed or modified if needed. A star will be appriciated if you find it helpful.
 
 Blood bank will help people to find blood indeed , also people will able to donate blood.
 Features:
