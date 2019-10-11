@@ -11,6 +11,5 @@ Features:
        #Finding blood easily
        #NearByHospitals
 
-#NB:If have some suggestions to share with me or anything, please feel free to contact with me at: 
-       E-mail: mh.ice.iu@gmail.com
+#NB:If have some suggestions to share with me or anything, please feel free to contact with me at: mh.ice.iu@gmail.com
 #Happy_Coding
