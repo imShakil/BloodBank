@@ -1,6 +1,3 @@
-## BloodBank
-It is a blood management android app
-
 ### About:
 This is a simple android project based on blood management. This may be helpful to people for finding blood easily in an emergency contact. People can search for blood donors and can find a list of donors at their nearby places.
 
