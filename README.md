@@ -33,4 +33,3 @@ Included:
 ![](https://img.shields.io/github/tag/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/v/release/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/issues/imshakil/BloodBank.svg) 
-![](https://img.shields.io/bower/v/BloodBank.svg)
