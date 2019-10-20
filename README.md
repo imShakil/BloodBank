@@ -1,8 +1,9 @@
 ### About:
 This is a simple android project based on blood management. This may be helpful to people for finding blood easily in an emergency contact. People can search for blood donors and can find a list of donors at their nearby places.
 
-This project can be used for any educational perpose and can be changed or modified if needed. 
-A star will be appriciated if you think it might be helpful.
+This project can be used for any educational perpose and can be changed or modified if needed.
+
+<b> A star will be appriciated if you think it might be helpful.</b>
 
 ### Features:
 Easy contact between blood donor and blood recipient through this android application.
