@@ -1,11 +1,7 @@
-### About:
+### About
 This is a simple android project based on blood management. This may be helpful to people for finding blood easily in an emergency contact. People can search for blood donors and can find a list of donors at their nearby places.
 
-This project can be used for any educational perpose and can be changed or modified in need.
-
-<b> A star will be appriciated if you think it might be helpful.</b>
-
-### Features:
+### Features
 Easy contact between blood donor and blood recipient through this android application.
 Included:
 - User Database
@@ -15,8 +11,7 @@ Included:
 - NearByHospitals
 - Achievment & Reward
        
-### Tools used:
-
+### Tools used
 - Firebase Database
 - Firebase Authentication
 - Google Maps Api
@@ -33,5 +28,8 @@ Included:
 ![](https://img.shields.io/github/v/release/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/issues/imshakil/BloodBank.svg) 
 
-@imShakil
+
+(This project can be used for any educational perpose and can be changed or modified in need.<br><b> A star will be appriciated if you think it might be helpful.</b>)<br>
+
+@imShakil<br>
 E-Mail: mh.ice.iu@gmail.com
