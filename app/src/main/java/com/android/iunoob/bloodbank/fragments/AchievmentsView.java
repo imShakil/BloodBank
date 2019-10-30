@@ -164,6 +164,9 @@ public class AchievmentsView extends Fragment {
                                                 yesno.setVisibility(View.VISIBLE);
 
                                                 yes = view.findViewById(R.id.btnYes);
+                                               cur_day = calendar.get(Calendar.DAY_OF_MONTH);
+                                               cur_month = calendar.get(Calendar.MONTH)+1;
+                                               cur_year = calendar.get(Calendar.YEAR);
 
                                                 yes.setOnClickListener(new View.OnClickListener() {
                                                     @Override
