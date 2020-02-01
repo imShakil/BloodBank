@@ -30,7 +30,7 @@ Included:
 ![](https://img.shields.io/github/issues/imshakil/BloodBank.svg) 
 
 
-(This project can be used for any educational perpose and can be changed or modified in need.<br><b> A star will be appriciated if you think it might be helpful.</b>)<br>
+(This project can be used for any educational purpose and can be changed or modified in need.<br><b> A star will be appriciated if you think it might be helpful.</b>)<br>
 
 @imShakil<br>
 E-Mail: mh.ice.iu@gmail.com
