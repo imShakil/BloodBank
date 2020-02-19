@@ -1,5 +1,5 @@
 ### About
-This is a simple android project based on blood management. This may be helpful to people for finding blood easily in an emergency contact. People can search for blood donors and can find a list of donors at their nearby places.
+“Blood Point” is an android application to collect or donate blood easily. Who have an android phone & internet connection can contact and searching for donor easily through this application. The purpose of this application is to help the rural people.
 
 ### Features
 Easy contact between blood donor and blood recipient through this android application.<br>
