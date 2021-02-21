@@ -37,6 +37,3 @@ Follow this link: https://github.com/imShakil/BloodBank/wiki/Databse-Snapshots
 ### Changing Database and Package Name
 I got so many mails on about 'How to change Database link and Package Name'. So, Who has queries can watch this video: https://www.youtube.com/watch?v=nAzAo7shGKQ&ab_channel=AnubhavAnand
 
-
-@imShakil<br>
-E-Mail: mh.ice.iu@gmail.com
