@@ -4,18 +4,20 @@
 # Features
 Easy contact between blood donor and blood recipient through this android application.<br>
 Included:
-- User Database
-- User Login & Signup
+- User Databases
+- User Login & Sign up
 - Donor Details
 - Finding blood group easily
-- NearByHospitals
-- Achievment & Reward
+- Finding Near By Hospitals
+- Achievements & Rewards
        
 # Tools used
 - Firebase Database
 - Firebase Authentication
 - Google Maps Api
 - Android Studio IDE
+- Android version 4.0 or later
+- Android SDK 17-28
   
 # How to install?
 
