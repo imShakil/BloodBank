@@ -62,7 +62,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:padding="5dp"
-                android:text="Blood Group:"
+                android:text="@string/BloodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Spinner
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:padding="5dp"
-                android:text="Choose Division:"
+                android:text="@string/Division"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Spinner
@@ -98,7 +98,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/postbtn"
-            android:text="Post"
+            android:text="@string/Post"
             android:backgroundTint="@color/primary_dark"
             android:background="@drawable/signin_btn"
             android:layout_width="wrap_content"
