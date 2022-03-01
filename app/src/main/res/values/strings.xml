@@ -27,6 +27,9 @@
     <string name="lgout">Log out</string>
     <string name="devinfo">About us</string>
     <string name="bloodinfo">Blood Info</string>
+    <string name="BloodGroup">Blood Group</string>
+    <string name="Division">Choose Division</string>
+    <string name="Post">Post</string>
 
 
     <string-array name="division_list">
