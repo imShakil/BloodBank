@@ -52,3 +52,13 @@ Follow this link: https://github.com/imShakil/BloodBank/wiki/Database-Snapshots
 # Changing Database and Package Name
 I got so many mails on about 'How to change Database link and Package Name'. So, Who has queries can watch this video: https://www.youtube.com/watch?v=nAzAo7shGKQ&ab_channel=AnubhavAnand
 
+
+# Contributing
+
+If you would like to contribute in this project, you are always welcome. There is no `code` avilable in the `master` branch. Please `switch` specific version and make changes there. For example, the latest dev version is: https://github.com/imShakil/BloodBank/tree/2.1
+You must to create pull request to that specific version to get it merged.
+
+Thanks
+
+
+
