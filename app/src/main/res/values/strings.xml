@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">Blood Point</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="achiev">Achievements</string>
+
+    <!-- Strings related to login -->
+    <string name="signup">Register</string>
+    <string name="prompt_email">Email</string>
+    <string name="register">Create an account</string>
+    <string name="forgotpass">Forgot password?</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="reset">Reset</string>
+    <string name="displayName">Full Name</string>
+    <string name="mobile">Mobile No</string>
+    <string name="userAddress">Address</string>
+    <string name="nearH">Find nearest Hospitals</string>
+    <string name="fndBlood">Find Blood Donor</string>
+    <string name="lgout">Log out</string>
+    <string name="devinfo">About us</string>
+    <string name="bloodinfo">Blood Info</string>
+    <string name="BloodGroup">Blood Group</string>
+    <string name="Division">Choose Division</string>
+    <string name="Post">Post</string>
+
+
+    <string-array name="division_list">
+        <item>Dhaka</item>
+        <item>Rajshahi</item>
+        <item>Barisal</item>
+        <item>Khulna</item>
+        <item>Sylhet</item>
+        <item>Rangpur</item>
+        <item>Chittagong</item>
+        <item>Mymensingh</item>
+
+    </string-array>
+
+    <array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+    <array name="Blood_Group">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </array>
+
+    <string name="eligibility_">Eligibility Requirements</string>
+    <string name="female_">If you are female, you must:\n Be healthy and feeling well\nBe at least 17 years old in most states\nBe at least 5 ft 5 inch\nWeigh at least 150 lbs.</string>
+    <string name="male_">If you are male, you must:\nBe healthy and feeling well\nBe at least 17 years old in most states\nBe at least 5 ft 1 inch \nWeigh at least 130 lbs.\n</string>
+    <string name="info_">Giving blood saves lives. The blood you give is a lifeline in an emergency and for people who need long-term treatments. Many people would not be alive today if donors had not generously given their blood. \n\nWhy we need you to give blood?\n\n We need over 6000 blood donations every day to treat patients in need for people to give blood.\n\nEach year we need approximately 200000 new donors, as some donors can no longer give blood.Most people between ages of 17-65 are able to give blood. Around half our current donors are over 45.That is why we need more young people to start giving blood.</string>
+    <string name="aboutus">This is a demo projects on blood donation and collecting. Our Team Members are: \n
+                1. Mobarak Hosen Shakil\n
+                2. Shamim Hossain \n
+                3. Mehedi Hasan \n
+                4. Akib Hosen Khan \n
+                5. MMR Raju \n
+                6. Abdur Rahman\n
+    </string>
+
+
+</resources>
