@@ -1,1 +1,2 @@
-merge
+merge conflict and resolution
+
