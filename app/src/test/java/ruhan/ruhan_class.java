@@ -3,11 +3,20 @@ package ruhan;
 public class ruhan_class {
     String name;
     int roll;
+    String Id;
 
-    ruhan_class(String name, int roll)
-    {
-        this.name=name;
-        this.roll=roll;
+    public ruhan_class(String name, int roll, String id) {
+        this.name = name;
+        this.roll = roll;
+        Id = id;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public int getRoll() {
