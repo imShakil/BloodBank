@@ -3,20 +3,22 @@ package ruhan;
 public class ruhan_class {
     String name;
     int roll;
-    double cgpa;
 
-    public ruhan_class(String name, int roll, double cgpa) {
+    String Id;
+
+    public ruhan_class(String name, int roll, String id) {
         this.name = name;
         this.roll = roll;
-        this.cgpa = cgpa;
+        Id = id;
     }
 
-    public double getCgpa() {
-        return cgpa;
+    public String getId() {
+        return Id;
     }
 
-    public void setCgpa(double cgpa) {
-        this.cgpa = cgpa;
+    public void setId(String id) {
+        Id = id;
+
     }
 
     public int getRoll() {
