@@ -42,8 +42,8 @@ N.B: It supports only in android version 4.0 or later.
 [![Views](https://hits.dwyl.com/imshakil/BloodBank.svg?style=flat-square&show=unique)](http://hits.dwyl.com/imshakil/BloodBank)
 ![](https://img.shields.io/github/tag/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/v/release/imshakil/BloodBank.svg) 
-![](https://img.shields.io/github/issues/imshakil/BloodBank.svg) 
-
+![](https://img.shields.io/github/issues/imshakil/BloodBank.svg)
+<a href="https://www.buymeacoffee.com/imshakil" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 20px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 # Database Snapshot
 Follow this link: https://github.com/imShakil/BloodBank/wiki/Database-Snapshots
@@ -53,12 +53,20 @@ Follow this link: https://github.com/imShakil/BloodBank/wiki/Database-Snapshots
 I got so many mails on about 'How to change Database link and Package Name'. So, Who has queries can watch this video: https://www.youtube.com/watch?v=nAzAo7shGKQ&ab_channel=AnubhavAnand
 
 
-# Contributing
+# Contribution
 
 If you would like to contribute in this project, you are always welcome. There is no `code` avilable in the `master` branch. Please `switch` specific version and make changes there. For example, the latest dev version is: https://github.com/imShakil/BloodBank/tree/2.1
 You must need to create pull request to that specific branch to get it merged.
 
+# Support
+
+If you would like to support this project for better version, you can give some support [here](https://buymeacoffee.com/imshakil).
+
+
 Thanks
+
+Regards ~ Shakil
+
 
 
 
