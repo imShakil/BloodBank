@@ -39,7 +39,7 @@ N.B: It supports only in android version 4.0 or later.
 
 ![](https://img.shields.io/github/stars/imshakil/BloodBank.svg)
 ![](https://img.shields.io/github/forks/imshakil/BloodBank.svg)
-[![HitCount](http://hits.dwyl.io/imshakil/BloodBank.svg)](http://hits.dwyl.io/imshakil/BloodBank)
+[![Views](https://hits.dwyl.com/imshakil/BloodBank.svg?style=flat-square&show=unique)](http://hits.dwyl.com/imshakil/BloodBank)
 ![](https://img.shields.io/github/tag/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/v/release/imshakil/BloodBank.svg) 
 ![](https://img.shields.io/github/issues/imshakil/BloodBank.svg) 
