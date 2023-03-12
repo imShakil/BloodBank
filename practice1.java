@@ -1,3 +1,4 @@
+ HEAD
 package com.android.iunoob.bloodbank.fragments;
 
 import android.support.annotation.NonNull;
@@ -31,5 +32,18 @@ public class practice2 {
     }
 
     public practice2() {
+=======
+public class Vehicle {
+    private String color;
+
+    // Getter
+    public String getColor() {
+        return color;
+    }
+
+    // Setter
+    public void setColor(String c) {
+        this.color = c;
+>>>>>>> master
     }
 }
