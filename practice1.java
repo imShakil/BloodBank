@@ -1,13 +1,13 @@
-public class Vehicle {
-    private String color;
+public class BlodGroup {
+    private String group;
 
     // Getter
-    public String getColor() {
-        return color;
+    public String getGroup() {
+        return group;
     }
 
     // Setter
-    public void setColor(String c) {
-        this.color = c;
+    public void setGroup(String c) {
+        this.group = c;
     }
 }
