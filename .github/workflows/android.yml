@@ -22,5 +22,28 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Build and analyze
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: ./gradlew build 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1  # replace with your preferred AWS region
+
+    - name: Upload APK to S3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: muditbucketdaffodil  # replace with your S3 bucket name
+        SOURCE_DIR: app/build/outputs/apk/release/  # replace with the directory to your APK file
+        
+    # - name: SonarCloud Scan
+    #   uses: sonarsource/sonarcloud-github-action@master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  sonar --info
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
