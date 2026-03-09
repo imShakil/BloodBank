@@ -1,0 +1,235 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      ".read": "auth != null",
+      ".indexOn": ["BloodGroup", "District", "DonorInfo"],
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid === $uid",
+        "verificationStatus": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "verificationReviewedBy": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "verificationReviewedAt": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "$other": {
+          ".validate": "newData.isString() || newData.isNumber() || newData.isBoolean() || !newData.exists()"
+        }
+      }
+    },
+    "posts": {
+      ".read": "auth != null",
+      ".indexOn": ["Time", "BloodGroup", "District", "moderationStatus", "authorUid", "expiryAt"],
+      "$postId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (data.child('authorUid').val() === auth.uid || newData.child('authorUid').val() === auth.uid)",
+        "moderationStatus": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "isVisible": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "reviewedBy": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "reviewedAt": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "flagReason": {
+          ".write": "root.child('admins').child(auth.uid).exists()"
+        },
+        "reactions": {
+          ".write": "auth != null",
+          "$reactionType": {
+            ".validate": "newData.isNumber() && newData.val() >= 0"
+          }
+        },
+        "reactedUsers": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.isString() || !newData.exists()"
+          }
+        },
+        "postId": {
+          ".validate": "newData.isString()"
+        },
+        "authorUid": {
+          ".validate": "newData.isString()"
+        },
+        "Time": {
+          ".validate": "newData.isNumber() || !newData.exists()"
+        },
+        "$other": {
+          ".validate": "newData.isString() || newData.isNumber() || newData.isBoolean() || !newData.exists()"
+        }
+      }
+    },
+    "subscriptions": {
+      ".indexOn": ["tier", "expiryAt"],
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "root.child('admins').child(auth.uid).exists()",
+        "tier": {
+          ".validate": "newData.val() == 'FREE' || newData.val() == 'PREMIUM'"
+        },
+        "expiryAt": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    },
+    "sponsoredPlacements": {
+      ".read": "auth != null",
+      ".write": "root.child('admins').child(auth.uid).exists()",
+      ".indexOn": ["placementType", "startAt", "endAt", "isActive"],
+      "$placementId": {
+        "impressions": {
+          ".write": "auth != null"
+        },
+        "clicks": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "placementAnalytics": {
+      ".read": "root.child('admins').child(auth.uid).exists()",
+      ".write": "auth != null",
+      ".indexOn": ["placementId", "timestamp"]
+    },
+    "moderationAudit": {
+      ".read": "root.child('admins').child(auth.uid).exists()",
+      ".write": "root.child('admins').child(auth.uid).exists()",
+      ".indexOn": ["postId", "timestamp"],
+      "$auditId": {
+        ".validate": "newData.hasChildren(['action', 'postId', 'adminUid', 'details', 'timestamp'])"
+      }
+    },
+    "requestUsage": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$monthKey": {
+          "count": {
+            ".validate": "newData.isNumber()"
+          },
+          "lastRequestAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "monthKey": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+    "adminAudit": {
+      ".read": "root.child('admins').child(auth.uid).exists()",
+      ".write": "root.child('admins').child(auth.uid).exists()",
+      ".indexOn": ["targetUid", "timestamp"],
+      "$auditId": {
+        ".validate": "newData.hasChildren(['action', 'targetUid', 'adminUid', 'details', 'timestamp'])"
+      }
+    },
+    "contactRequests": {
+      ".read": "auth != null",
+      ".indexOn": ["donorUid", "requesterUid", "createdAt"],
+      "$requestId": {
+        ".read": "auth != null && (data.child('donorUid').val() === auth.uid || data.child('requesterUid').val() === auth.uid)",
+        ".write": "auth != null && ((!data.exists() && newData.child('requesterUid').val() === auth.uid) || (data.exists() && (data.child('donorUid').val() === auth.uid || data.child('requesterUid').val() === auth.uid)))",
+        ".validate": "newData.hasChildren(['requesterUid', 'requesterName', 'donorUid', 'donorName', 'bloodGroup', 'status', 'createdAt'])",
+        "status": {
+          ".validate": "newData.val() == 'PENDING' || newData.val() == 'APPROVED' || newData.val() == 'DENIED'"
+        },
+        "revealedContact": {
+          ".read": "auth != null && (data.parent().child('requesterUid').val() === auth.uid || data.parent().child('donorUid').val() === auth.uid)"
+        }
+      }
+    },
+    "contactRequestUsage": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$dateKey": {
+          "count": {
+            ".validate": "newData.isNumber() && newData.val() <= 10"
+          },
+          "lastRequestAt": {
+            ".validate": "newData.isNumber()"
+          }
+        }
+      }
+    },
+    "reports": {
+      ".read": "root.child('admins').child(auth.uid).exists()",
+      "$reportId": {
+        ".write": "auth != null && newData.child('reporterUid').val() === auth.uid",
+        ".validate": "newData.hasChildren(['reporterUid', 'reportedUid', 'reason', 'timestamp'])"
+      }
+    },
+    "blockedUsers": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "$blockedUid": {
+          ".validate": "newData.isBoolean() || !newData.exists()"
+        }
+      }
+    },
+    "publicLanding": {
+      ".read": true,
+      ".write": false
+    },
+    "presence": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "online": {
+          ".validate": "newData.isBoolean()"
+        },
+        "lastActiveAt": {
+          ".validate": "newData.isNumber() || !newData.exists()"
+        }
+      }
+    },
+    "publicContent": {
+      ".read": true,
+      ".write": "auth != null && root.child('admins').child(auth.uid).exists()",
+      "blogs": {
+        "$id": {
+          ".validate": "newData.hasChildren(['title', 'content', 'authorName', 'publishedAt'])"
+        }
+      },
+      "stories": {
+        "$id": {
+          ".validate": "newData.hasChildren(['title', 'content', 'authorName', 'publishedAt', 'anonymous'])"
+        }
+      }
+    },
+    "contentSubmissions": {
+      "blogs": {
+        ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+        "$id": {
+          ".write": "!data.exists() || (auth != null && root.child('admins').child(auth.uid).exists())",
+          ".validate": "newData.hasChildren(['type', 'title', 'content', 'authorName', 'anonymous', 'status', 'createdAt']) && newData.child('type').val() == 'blog' && newData.child('title').isString() && newData.child('title').val().length > 0 && newData.child('title').val().length <= 120 && newData.child('content').isString() && newData.child('content').val().length >= 200 && newData.child('content').val().length <= 4000 && newData.child('authorName').isString() && newData.child('authorName').val().length > 0 && newData.child('authorName').val().length <= 80 && newData.child('anonymous').isBoolean() && newData.child('status').val() == 'PENDING' && newData.child('createdAt').isNumber()"
+        }
+      },
+      "stories": {
+        ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+        "$id": {
+          ".write": "!data.exists() || (auth != null && root.child('admins').child(auth.uid).exists())",
+          ".validate": "newData.hasChildren(['type', 'title', 'content', 'authorName', 'anonymous', 'status', 'createdAt']) && newData.child('type').val() == 'story' && newData.child('title').isString() && newData.child('title').val().length > 0 && newData.child('title').val().length <= 120 && newData.child('content').isString() && newData.child('content').val().length >= 120 && newData.child('content').val().length <= 2200 && newData.child('authorName').isString() && newData.child('authorName').val().length > 0 && newData.child('authorName').val().length <= 80 && newData.child('anonymous').isBoolean() && newData.child('status').val() == 'PENDING' && newData.child('createdAt').isNumber()"
+        }
+      }
+    },
+    "admins": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+      ".write": false,
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('admins').child(auth.uid).exists())"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "bloodpoint-test-data",
+  "version": "1.0.0",
+  "description": "BloodPoint test data generator",
+  "scripts": {
+    "create-test-data": "node create-test-data.js",
+    "install-deps": "npm install firebase-admin"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.0.0"
+  }
+}

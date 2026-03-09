@@ -1,0 +1,24 @@
+{
+  "name": "bloodpoint-functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Firebase Cloud Functions for BloodPoint - scheduled cleanup tasks",
+  "dependencies": {
+    "firebase-admin": "^13.7.0",
+    "firebase-functions": "^7.1.0"
+  }
+}

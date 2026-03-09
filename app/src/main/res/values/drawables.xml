@@ -1,6 +1,0 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <item name="ic_home" type="drawable">@drawable/ic_home</item>
-    <item name="ic_profile_overview" type="drawable">@drawable/ic_profile_overview</item>
-    <item name="ic_menu_achievements" type="drawable">@drawable/ic_menu_achievements</item>
-    <item name="ic_logout" type="drawable">@drawable/ic_logout</item>
-</resources>
