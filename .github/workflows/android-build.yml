@@ -39,12 +39,12 @@ jobs:
             exit 1
           fi
 
-          if ! git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
-            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}"
-            exit 1
+          if git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
+            git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
+          else
+            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}; falling back to main"
+            git clone --depth 1 --branch "main" "${REPO_URL}" android
           fi
-
-          git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
 
           test -f android/gradlew
 
@@ -188,12 +188,12 @@ jobs:
             exit 1
           fi
 
-          if ! git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
-            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}"
-            exit 1
+          if git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
+            git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
+          else
+            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}; falling back to main"
+            git clone --depth 1 --branch "main" "${REPO_URL}" android
           fi
-
-          git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
 
           test -f android/gradlew
       
@@ -250,12 +250,12 @@ jobs:
             exit 1
           fi
 
-          if ! git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
-            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}"
-            exit 1
+          if git ls-remote --exit-code --heads --tags "${REPO_URL}" "${ANDROID_REF}" >/dev/null 2>&1; then
+            git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
+          else
+            echo "Ref '${ANDROID_REF}' not found in ${MOBILE_APP_REPO}; falling back to main"
+            git clone --depth 1 --branch "main" "${REPO_URL}" android
           fi
-
-          git clone --depth 1 --branch "${ANDROID_REF}" "${REPO_URL}" android
 
           test -f android/gradlew
       
