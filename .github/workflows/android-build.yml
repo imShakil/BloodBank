@@ -243,6 +243,9 @@ jobs:
   security-scanning:
     name: Security Scanning
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
       - name: Clone private Android repo
@@ -274,6 +277,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.33.1
         with:
+          github-pat: ${{ secrets.MOBILE_APP_PAT }}
           scan-type: 'fs'
           scan-ref: '.'
           format: 'sarif'
