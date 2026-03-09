@@ -20,9 +20,6 @@ jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android
     
     steps:
       - name: Clone private Android repo
@@ -52,6 +49,7 @@ jobs:
           test -f android/gradlew
 
       - name: Set app version from tag/ref
+        working-directory: android
         run: |
           VERSION_NAME="${RELEASE_TAG#v}"
           if ! echo "${VERSION_NAME}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
@@ -100,19 +98,23 @@ jobs:
           cache: gradle
       
       - name: Grant execute permission for gradlew
+        working-directory: android
         run: chmod +x gradlew
       
       - name: Create local.properties
+        working-directory: android
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> local.properties
 
       - name: Create release keystore from secret
+        working-directory: android
         run: |
           mkdir -p keystore
           printf '%s' "${{ secrets.KEYSTORE_JKS_BASE64 }}" | base64 --decode > keystore/release.jks
       
       - name: Create keystore.properties for CI
+        working-directory: android
         run: |
           echo "storeFile=keystore/release.jks" > keystore.properties
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
@@ -120,18 +122,23 @@ jobs:
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> keystore.properties
       
       - name: Lint Analysis
+        working-directory: android
         run: ./gradlew lint
       
       - name: Build Debug APK
+        working-directory: android
         run: ./gradlew assembleDebug
       
       - name: Build Release APK
+        working-directory: android
         run: ./gradlew assembleRelease
       
       - name: Build Release AAB (Android App Bundle)
+        working-directory: android
         run: ./gradlew bundleRelease
       
       - name: Run Unit Tests
+        working-directory: android
         run: ./gradlew test
       
       - name: Upload Debug APK
@@ -162,9 +169,6 @@ jobs:
   code-quality:
     name: Code Quality Checks
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android
     
     steps:
       - name: Clone private Android repo
@@ -201,18 +205,22 @@ jobs:
           cache: gradle
       
       - name: Grant execute permission for gradlew
+        working-directory: android
         run: chmod +x gradlew
       
       - name: Create local.properties
+        working-directory: android
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> local.properties
       
       - name: Check for exposed secrets
+        working-directory: android
         run: |
           ./gradlew checkSecrets || true
       
       - name: Generate coverage reports
+        working-directory: android
         run: ./gradlew test --info
       
       - name: Upload coverage to Codecov
