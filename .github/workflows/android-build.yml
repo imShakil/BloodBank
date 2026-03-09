@@ -194,7 +194,7 @@ jobs:
           test -f android/gradlew
       
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -216,7 +216,7 @@ jobs:
         run: ./gradlew test --info
       
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           files: ./android/app/build/reports/coverage/debug/report.xml
 
@@ -252,7 +252,7 @@ jobs:
           test -f android/gradlew
       
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -281,13 +281,13 @@ jobs:
           fi
 
       - name: Download release APK artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: bloodpoint-release
           path: release-apk
 
       - name: Download release AAB artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: bloodpoint-aab
           path: release-aab
