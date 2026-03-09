@@ -107,6 +107,12 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> local.properties
 
+      - name: Create google-services.json from secret
+        working-directory: android
+        run: |
+          mkdir -p app
+          printf '%s' "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > app/google-services.json
+
       - name: Create release keystore from secret
         working-directory: android
         run: |
@@ -213,6 +219,12 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> local.properties
+
+      - name: Create google-services.json from secret
+        working-directory: android
+        run: |
+          mkdir -p app
+          printf '%s' "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > app/google-services.json
       
       - name: Check for exposed secrets
         working-directory: android
@@ -328,6 +340,7 @@ jobs:
 # - MOBILE_APP_REPO: Private Android repository in owner/name format (example: imShakil/BloodPoint)
 # - MOBILE_APP_PAT: Fine-grained PAT with read access to MOBILE_APP_REPO
 # - GOOGLE_MAPS_API_KEY: Restricted Google Maps API key
+# - GOOGLE_SERVICES_JSON_BASE64: Base64-encoded android/app/google-services.json
 # - KEYSTORE_JKS_BASE64: Base64-encoded release keystore (.jks) content
 # - KEYSTORE_PASSWORD: Release keystore password
 # - KEYSTORE_KEY_ALIAS: Release keystore key alias
