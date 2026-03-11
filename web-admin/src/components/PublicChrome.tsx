@@ -50,6 +50,7 @@ export function PublicFooter() {
       <div className="landing-footer-links">
         <Link to="/privacy-policy">প্রাইভেসি</Link>
         <Link to="/terms">শর্তাবলী</Link>
+        <a href="https://github.com/imShakil/bloodbank" target="_blank" rel="noreferrer">গিটহাব</a>
       </div>
     </footer>
   );
