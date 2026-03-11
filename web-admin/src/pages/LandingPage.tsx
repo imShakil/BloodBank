@@ -6,8 +6,8 @@ import { LandingData, fetchLandingData } from "../services/landing";
 import { BlogRecord, StoryRecord } from "../types";
 
 const PLAY_STORE_URL = import.meta.env.VITE_PLAYSTORE_URL ?? "#";
-const APK_PURE_URL = import.meta.env.VITE_APKPURE_URL ?? "#";
-const DIRECT_APK_URL = import.meta.env.VITE_DIRECT_APK_URL ?? "#";
+const APK_PURE_URL = import.meta.env.VITE_APKPURE_URL ?? "https://apkpure.com/p/com.bloodpoint.iunoob";
+const DIRECT_APK_URL = import.meta.env.VITE_DIRECT_APK_URL ?? "https://github.com/imShakil/BloodBank/releases/latest/download/bloodpoint.apk";
 const TELEGRAM_CHANNEL_URL = "https://t.me/mybplink";
 const TELEGRAM_COMMUNITY_URL = "https://t.me/+og5pFf-HLqllMmVl";
 
