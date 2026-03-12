@@ -28,3 +28,4 @@ dist
 *.pem
 *.crt
 *.p12
+/.firebase/

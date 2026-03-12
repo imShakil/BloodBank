@@ -12,9 +12,14 @@ export async function fetchReports(limit = 300): Promise<ReportRecord[]> {
       reporterUid: asString(raw.reporterUid) ?? "",
       reportedUid: asString(raw.reportedUid) ?? "",
       reason: asString(raw.reason) ?? "",
-      timestamp: asNumber(raw.timestamp) ?? 0
+      timestamp: asNumber(raw.timestamp) ?? 0,
+      contentType: asContentType(raw.contentType) ?? "USER"
     }))
     .sort((a, b) => b.timestamp - a.timestamp);
+
+function asContentType(value: unknown): "POST" | "USER" | undefined {
+  return value === "POST" || value === "USER" ? value : undefined;
+}
 }
 
 function asString(value: unknown) {

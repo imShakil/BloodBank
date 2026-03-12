@@ -23,6 +23,7 @@ export function ReportsPage() {
               <th>Report ID</th>
               <th>রিপোর্টকারী UID</th>
               <th>রিপোর্টকৃত UID</th>
+              <th>রিপোর্ট টাইপ</th>
               <th>কারণ</th>
               <th>সময়</th>
             </tr>
@@ -33,6 +34,7 @@ export function ReportsPage() {
                 <td className="mono">{report.reportId}</td>
                 <td className="mono">{report.reporterUid}</td>
                 <td className="mono">{report.reportedUid}</td>
+                <td>{report.contentType === "POST" ? "Post" : "Profile"}</td>
                 <td>{report.reason}</td>
                 <td>{new Date(report.timestamp).toLocaleString()}</td>
               </tr>

@@ -27,6 +27,7 @@ export type ReportRecord = {
   reportedUid: string;
   reason: string;
   timestamp: number;
+  contentType: "POST" | "USER";
 };
 
 export type BlogRecord = {

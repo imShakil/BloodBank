@@ -73,13 +73,12 @@ export function LandingPage() {
         <div className="hero-overlay">
           <div className="hero-grid">
             <div>
-              <h1>দ্রুত ডোনার খুঁজুন, দ্রুত জীবন বাঁচান</h1>
+              <h1>আপনার এক ব্যাগ রক্ত, কারও নতুন জীবন।</h1>
               <p>
-                একটি অ্যাপেই দ্রুত রক্তদাতা খোঁজা, বিশ্বস্ত ডোনার কমিউনিটি এবং জরুরি রিকোয়েস্ট সবার কাছে
-                পৌঁছে দেওয়ার সুবিধা।
+                একটি অ্যাপেই সহজে খুঁজে নিন নিকটবর্তী রক্তদাতা, যুক্ত থাকুন বিশ্বস্ত ডোনার কমিউনিটির সাথে এবং জরুরি রিকোয়েস্ট মুহূর্তেই পৌঁছে দিন সবার কাছে।
               </p>
               <div className="download-actions">
-                <a className="hero-btn primary" href={PLAY_STORE_URL} target="_blank" rel="noreferrer">
+                <a className="hero-btn primary" href={PLAY_STORE_URL} rel="noreferrer">
                   প্লে স্টোর লিংক
                 </a>
                 <a className="hero-btn secondary" href={APK_PURE_URL} target="_blank" rel="noreferrer">
@@ -217,19 +216,21 @@ export function LandingPage() {
             <ul>
               {(data?.recentPosts ?? []).map((post) => (
                 <li key={post.id}>
-                  <span>{post.name}</span>
-                  <strong>{post.bloodGroup}</strong>
+                  {post.name} রিকোয়েস্ট করেছেন {post.bloodGroup} রক্তদাতার জন্য ।
+                  {/* <span>{post.name}</span>
+                  <strong>{post.bloodGroup}</strong> */}
                 </li>
               ))}
             </ul>
           </div>
           <div className="panel">
-            <h3>নতুন যোগ দেওয়া ডোনার</h3>
+            <h3>নতুন যোগ হয়েছেন</h3>
             <ul>
               {(data?.newDonors ?? []).map((donor) => (
                 <li key={donor.uid}>
-                  <span>{donor.name}</span>
-                  <strong>{donor.district}</strong>
+                  {donor.district} থেকে {donor.name}
+                  {/* <span>{donor.name}</span>
+                  <strong>{donor.district} থেকে</strong>  */}
                 </li>
               ))}
             </ul>
