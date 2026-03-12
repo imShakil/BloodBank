@@ -216,7 +216,7 @@ export function LandingPage() {
             <ul>
               {(data?.recentPosts ?? []).map((post) => (
                 <li key={post.id}>
-                  {post.name} রিকোয়েস্ট করেছেন {post.bloodGroup} রক্তদাতার জন্য ।
+                  {post.name} অনুরোধ করেছেন {post.bloodGroup} রক্তদাতার জন্য ।
                   {/* <span>{post.name}</span>
                   <strong>{post.bloodGroup}</strong> */}
                 </li>
