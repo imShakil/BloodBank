@@ -190,8 +190,8 @@ jobs:
         run: |
           set -euo pipefail
           if ls *.apk 1> /dev/null 2>&1; then
-            sha256sum *.apk > checksums.txt
-            cat checksums.txt
+            sha256sum *.apk > checksums-apk.txt
+            cat checksums-apk.txt
           fi
       
       - name: Generate AAB checksums
@@ -199,8 +199,8 @@ jobs:
         run: |
           set -euo pipefail
           if ls *.aab 1> /dev/null 2>&1; then
-            sha256sum *.aab > checksums.txt
-            cat checksums.txt
+            sha256sum *.aab > checksums-aab.txt
+            cat checksums-aab.txt
           fi
       
       - name: Upload Debug APK
@@ -217,7 +217,7 @@ jobs:
           name: bloodpoint-release-${{ env.RELEASE_TAG }}
           path: |
             android/app/build/outputs/apk/release/*.apk
-            android/app/build/outputs/apk/release/checksums.txt
+            android/app/build/outputs/apk/release/checksums-apk.txt
           if-no-files-found: error
           retention-days: 90
       
@@ -227,7 +227,7 @@ jobs:
           name: bloodpoint-aab-${{ env.RELEASE_TAG }}
           path: |
             android/app/build/outputs/bundle/release/*.aab
-            android/app/build/outputs/bundle/release/checksums.txt
+            android/app/build/outputs/bundle/release/checksums-aab.txt
           if-no-files-found: error
           retention-days: 90
       
@@ -476,15 +476,15 @@ jobs:
           set -euo pipefail
           echo "Verifying APK checksums..."
           cd release-apk
-          if [ -f checksums.txt ]; then
-            sha256sum -c checksums.txt
+          if [ -f checksums-apk.txt ]; then
+            sha256sum -c checksums-apk.txt
           fi
           cd ..
           
           echo "Verifying AAB checksums..."
           cd release-aab
-          if [ -f checksums.txt ]; then
-            sha256sum -c checksums.txt
+          if [ -f checksums-aab.txt ]; then
+            sha256sum -c checksums-aab.txt
           fi
           cd ..
       
@@ -514,14 +514,16 @@ jobs:
             - `bloodpoint_${{ env.RELEASE_TAG }}.aab`: Release Android App Bundle for Play Store
             - `bloodpoint.apk`: Generic release APK (same as versioned)
             - `bloodpoint.aab`: Generic release AAB (same as versioned)
-            - `checksums.txt`: SHA256 checksums for verification
+            - `checksums-apk.txt`: SHA256 checksums for APK verification
+            - `checksums-aab.txt`: SHA256 checksums for AAB verification
 
             ### Verification
             Verify the integrity of downloaded files:
             ```bash
             sha256sum bloodpoint_${{ env.RELEASE_TAG }}.apk
+            sha256sum bloodpoint_${{ env.RELEASE_TAG }}.aab
             ```
-            Compare with checksums.txt
+            Compare with checksums-apk.txt and checksums-aab.txt
 
             ### Build Info
             - Android source repo: Private repository
@@ -536,8 +538,8 @@ jobs:
           files: |
             release-apk/*.apk
             release-aab/*.aab
-            release-apk/checksums.txt
-            release-aab/checksums.txt
+            release-apk/checksums-apk.txt
+            release-aab/checksums-aab.txt
 
 # Secrets required in GitHub repository settings:
 # Required secrets:
