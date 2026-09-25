@@ -3,18 +3,28 @@
  *
  * Scheduled cleanup tasks:
  * 1. cleanupExpiredPosts      — Deletes blood request posts past their expiryAt date (runs daily at 3:00 AM UTC)
- * 2. cleanupOldContactRequests — Deletes contact requests older than 90 days (runs daily at 3:30 AM UTC)
+ * 2. cleanupOldContactRequests — Deletes contact requests older than the configured
+ *    retention period (default 90 days; runs daily at 3:30 AM UTC)
  * 3. publishPublicLandingSnapshot — Publishes sanitized public landing metrics (runs every 5 minutes)
  * 4. Push Notification - 
  */
 
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { logger }      = require("firebase-functions");
+const { defineInt }   = require("firebase-functions/params");
 const { initializeApp } = require("firebase-admin/app");
 const { getDatabase }   = require("firebase-admin/database");
 const { getMessaging } = require("firebase-admin/messaging");
 const { onValueCreated } = require("firebase-functions/v2/database");
 const { onValueWritten } = require("firebase-functions/v2/database");
+
+const {
+  DEFAULT_CONTACT_REQUEST_RETENTION_DAYS,
+  MIN_RETENTION_DAYS,
+  MAX_RETENTION_DAYS,
+  resolveEffectiveRetention,
+  runContactRequestCleanup,
+} = require("./lib/retention");
 
 initializeApp();
 
@@ -25,8 +35,36 @@ initializeApp();
 /** How many records to process per batch to avoid memory issues. */
 const BATCH_SIZE = 200;
 
-/** Contact requests older than this many days will be deleted. */
-const CONTACT_REQUEST_RETENTION_DAYS = 14;
+/**
+ * Contact request retention period, in days.
+ *
+ * Contact requests are deleted once they are older than this many days. The
+ * default lives in ./lib/retention.js so the code and the docs cannot drift
+ * apart (they did: the comment here used to say 90 days while the constant was
+ * 14 — see EPMCDMETST-66058).
+ *
+ * Default: DEFAULT_CONTACT_REQUEST_RETENTION_DAYS (90 days).
+ * Accepted range: MIN_RETENTION_DAYS..MAX_RETENTION_DAYS (1..3650); anything
+ * else falls back to the default and logs a warning.
+ *
+ * To override, set CONTACT_REQUEST_RETENTION_DAYS in:
+ *   - functions/.env                  → local development / emulator
+ *   - functions/.env.<projectId>      → a specific Firebase project (used by CI/deploy)
+ * Values are resolved at deploy time, so a change requires a redeploy.
+ * See functions/OPERATIONS_RUNBOOK.md.
+ *
+ * Boundary behaviour (see lib/retention.js#selectExpiredKeys):
+ *   createdAt <  cutoff → deleted
+ *   createdAt === cutoff → kept
+ *   createdAt >  cutoff → kept
+ *   createdAt missing or non-numeric → treated as 0 → deleted
+ */
+const contactRequestRetentionDays = defineInt("CONTACT_REQUEST_RETENTION_DAYS", {
+  default: DEFAULT_CONTACT_REQUEST_RETENTION_DAYS,
+  description:
+    `Days to retain contact requests before deletion ` +
+    `(${MIN_RETENTION_DAYS}-${MAX_RETENTION_DAYS}, default ${DEFAULT_CONTACT_REQUEST_RETENTION_DAYS})`,
+});
 
 /** Public landing list limits. */
 const LANDING_RECENT_POSTS_LIMIT = 8;
@@ -99,44 +137,25 @@ exports.cleanupOldContactRequests = onSchedule(
     memory: "256MiB",
   },
   async (_event) => {
-    const db      = getDatabase();
-    const cutoff  = Date.now() - CONTACT_REQUEST_RETENTION_DAYS * 24 * 60 * 60 * 1000;
-    let totalDeleted = 0;
-
-    logger.info("cleanupOldContactRequests: starting", {
-      retentionDays: CONTACT_REQUEST_RETENTION_DAYS,
-      cutoffTimestamp: cutoff,
+    // Validate before use: defineInt yields 0 both when the variable is absent
+    // and when it holds junk, and a retention of 0 would put the cutoff at
+    // "now" and delete every contact request. See lib/retention.js.
+    const { retentionDays, source, warning } = resolveEffectiveRetention({
+      envValue: process.env.CONTACT_REQUEST_RETENTION_DAYS,
+      paramValue: contactRequestRetentionDays.value(),
     });
 
-    const snapshot = await db
-      .ref("contactRequests")
-      .orderByChild("createdAt")
-      .endAt(cutoff)                       // createdAt <= cutoff → older than 90 days
-      .limitToFirst(BATCH_SIZE)
-      .once("value");
-
-    if (!snapshot.exists()) {
-      logger.info("cleanupOldContactRequests: nothing to clean up");
-      return;
+    if (warning) {
+      logger.warn("cleanupOldContactRequests: invalid retention configuration", { warning });
     }
 
-    const updates = {};
-    snapshot.forEach((child) => {
-      updates[child.key] = null;
-      totalDeleted++;
+    await runContactRequestCleanup({
+      db: getDatabase(),
+      logger,
+      retentionDays,
+      retentionSource: source,
+      now: Date.now(),
     });
-
-    await db.ref("contactRequests").update(updates);
-
-    logger.info("cleanupOldContactRequests: deleted old contact requests", {
-      totalDeleted,
-    });
-
-    if (totalDeleted >= BATCH_SIZE) {
-      logger.warn(
-        "cleanupOldContactRequests: batch limit reached — more old requests may remain"
-      );
-    }
   }
 );
 

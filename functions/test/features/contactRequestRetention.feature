@@ -3,15 +3,26 @@ Feature: Contact Request Retention and Cleanup
   I want contact-request retention to be consistent and configurable
   So that records are not deleted earlier/later than intended and retention can be changed safely
 
+  # These scenarios are the specification for functions/lib/retention.js and its
+  # wiring in functions/index.js. They are executed as mocha tests in
+  # functions/test/retention.test.js and functions/test/cleanupOldContactRequests.test.js
+  # (there is no Cucumber runner in this project — this file is the readable
+  # contract, the mocha suites are the enforcement).
+
   Background:
     Given the cleanupOldContactRequests function is deployed
     And the Firebase Realtime Database contains contact requests
+
+  # ---------------------------------------------------------------------------
+  # Configuration — AC 2
+  # ---------------------------------------------------------------------------
 
   Scenario: Default retention period is used when no configuration provided
     Given no retention period configuration is provided
     When the cleanupOldContactRequests function runs
     Then it should use a default retention period of 90 days
     And it should log the effective retention days as 90
+    And it should log the retentionSource as "default"
     And it should calculate the cutoff timestamp as (current_time - 90 days)
 
   Scenario: Custom retention period is applied from configuration
@@ -19,7 +30,40 @@ Feature: Contact Request Retention and Cleanup
     When the cleanupOldContactRequests function runs
     Then it should use the configured retention period of 30 days
     And it should log the effective retention days as 30
+    And it should log the retentionSource as "configured"
     And it should calculate the cutoff timestamp as (current_time - 30 days)
+
+  Scenario Outline: Invalid configured retention values fall back to the default
+    Given the retention period is configured to "<configured>"
+    When the cleanupOldContactRequests function runs
+    Then it should log a warning mentioning "<configured>"
+    And it should use a default retention period of 90 days
+    And it should log the retentionSource as "default"
+
+    Examples:
+      | configured | why it is rejected                                    |
+      | 0          | a cutoff of "now" would delete every contact request  |
+      | -5         | a negative retention puts the cutoff in the future    |
+      | 30.5       | retention is whole days only                          |
+      | abc        | not a number                                          |
+      | 4000       | above the accepted maximum of 3650 days               |
+
+  Scenario: An absent environment variable is not mistaken for a configured zero
+    # Measured behaviour of firebase-functions v7: defineInt(...).value() returns
+    # 0 — not the declared default — when the backing environment variable is
+    # absent, because the declared default is resolved by the CLI at deploy time
+    # rather than by the accessor at runtime. Treating that 0 as "configured"
+    # would put the cutoff at "now" and delete everything.
+    Given no retention period configuration is provided
+    And the param accessor returns 0
+    When the cleanupOldContactRequests function runs
+    Then it should use a default retention period of 90 days
+    And it should log the retentionSource as "default"
+    And it should NOT log an invalid-configuration warning
+
+  # ---------------------------------------------------------------------------
+  # Cutoff behaviour — AC 1, AC 3, AC 4
+  # ---------------------------------------------------------------------------
 
   Scenario: Contact request older than retention period is deleted
     Given the retention period is set to 90 days
@@ -60,23 +104,24 @@ Feature: Contact Request Retention and Cleanup
     Then the contact request should NOT be deleted
     And the totalDeleted count should remain 0
 
-  Scenario: No contact requests to clean up
+  Scenario Outline: Contact requests without a usable createdAt are deleted
+    # createdAt is coerced to 0 — treated as infinitely old — so such records are
+    # removed rather than accumulating forever. RTDB sorts children lacking the
+    # ordered key first, so they always fall inside the endAt(cutoff) window and
+    # do reach the function.
     Given the retention period is set to 90 days
-    And all contact requests are newer than 90 days
+    And a contact request exists with a createdAt value of <createdAt>
     When the cleanupOldContactRequests function runs
-    Then no contact requests should be deleted
-    And it should log "nothing to clean up"
-    And the totalInspected count should be 0
-    And the totalDeleted count should be 0
+    Then the contact request should be deleted
+    And the totalDeleted count should be incremented
 
-  Scenario: Batch limit reached during cleanup
-    Given the retention period is set to 90 days
-    And there are more than 200 contact requests older than 90 days
-    When the cleanupOldContactRequests function runs
-    Then it should process exactly 200 contact requests (batch limit)
-    And it should delete the eligible contact requests from the batch
-    And it should log a warning: "batch limit reached — more old requests may remain"
-    And it should include batchSize and retentionDays in the warning log
+    Examples:
+      | createdAt          |
+      | no field at all    |
+      | null               |
+      | "2024-01-01"       |
+      | NaN                |
+      | Infinity           |
 
   Scenario: Multiple contact requests with mixed ages
     Given the retention period is set to 90 days
@@ -94,32 +139,12 @@ Feature: Contact Request Retention and Cleanup
     And the totalDeleted count should be 2
     And the totalPreserved count should be 4
 
-  Scenario: Structured logging includes all required information
+  Scenario: Verify cutoff timestamp calculation accuracy
     Given the retention period is set to 90 days
-    And contact requests exist for cleanup
-    When the cleanupOldContactRequests function runs
-    Then the start log should include:
-      | field              | type     | required |
-      | retentionDays      | number   | yes      |
-      | cutoffTimestamp    | number   | yes      |
-      | cutoffDate         | string   | yes      |
-      | currentTimestamp   | number   | yes      |
-      | currentDate        | string   | yes      |
-    And the completion log should include:
-      | field              | type     | required |
-      | retentionDays      | number   | yes      |
-      | totalInspected     | number   | yes      |
-      | totalDeleted       | number   | yes      |
-      | totalPreserved     | number   | yes      |
-      | cutoffTimestamp    | number   | yes      |
-      | cutoffDate         | string   | yes      |
-
-  Scenario: Contact request with missing createdAt field
-    Given the retention period is set to 90 days
-    And a contact request exists with no createdAt field (defaults to 0)
-    When the cleanupOldContactRequests function runs
-    Then the contact request should be deleted (createdAt 0 is older than any cutoff)
-    And the totalDeleted count should be incremented
+    And the current timestamp is 1704067200000 (2024-01-01 00:00:00 UTC)
+    When the cutoff timestamp is calculated
+    Then the cutoff should be 1696291200000 (2023-10-03 00:00:00 UTC)
+    And the difference should be exactly 7776000000 milliseconds (90 days)
 
   Scenario: Configuration change from 14 days to 90 days
     Given the retention period was previously set to 14 days
@@ -130,6 +155,10 @@ Feature: Contact Request Retention and Cleanup
     And it should use the new retention period of 90 days
     And it should log the effective retention days as 90
 
+  # ---------------------------------------------------------------------------
+  # Database access and writes
+  # ---------------------------------------------------------------------------
+
   Scenario: Verify database query uses correct parameters
     Given the retention period is set to 90 days
     When the cleanupOldContactRequests function runs
@@ -138,17 +167,61 @@ Feature: Contact Request Retention and Cleanup
     And it should use endAt with the calculated cutoff timestamp
     And it should limitToFirst BATCH_SIZE (200)
 
-  Scenario: Updates are only applied when there are deletions
+  Scenario: The query window is empty, so the function returns early
     Given the retention period is set to 90 days
     And all contact requests are newer than the cutoff
     When the cleanupOldContactRequests function runs
     Then no database update should be performed
-    And totalDeleted should be 0
-    And the function should exit early with "nothing to clean up" log
+    And it should log "nothing to clean up"
+    And that log should include retentionDays, cutoffTimestamp, totalInspected, totalDeleted and totalPreserved
+    And the totalInspected count should be 0
+    And the totalDeleted count should be 0
 
-  Scenario: Verify cutoff timestamp calculation accuracy
+  Scenario: Records are inspected but none are eligible, so no update is written
+    # Distinct from the early return above: endAt(cutoff) is inclusive, so a
+    # record sitting exactly on the boundary IS fetched and inspected. It is then
+    # preserved, and update() must not be called with an empty payload.
     Given the retention period is set to 90 days
-    And the current timestamp is 1704067200000 (2024-01-01 00:00:00 UTC)
-    When the cutoff timestamp is calculated
-    Then the cutoff should be 1696291200000 (2023-10-03 00:00:00 UTC)
-    And the difference should be exactly 7776000000 milliseconds (90 days)
+    And the only contact request in the window sits exactly at the cutoff
+    When the cleanupOldContactRequests function runs
+    Then no database update should be performed
+    And it should log "completed" rather than "nothing to clean up"
+    And the totalInspected count should be 1
+    And the totalDeleted count should be 0
+    And the totalPreserved count should be 1
+
+  Scenario: Batch limit reached during cleanup
+    Given the retention period is set to 90 days
+    And there are more than 200 contact requests older than 90 days
+    When the cleanupOldContactRequests function runs
+    Then it should process exactly 200 contact requests (batch limit)
+    And it should delete the eligible contact requests from the batch
+    And it should log a warning: "batch limit reached — more old requests may remain"
+    And it should include batchSize, retentionDays and totalInspected in the warning log
+
+  # ---------------------------------------------------------------------------
+  # Structured logging contract — AC 2
+  # ---------------------------------------------------------------------------
+
+  Scenario: Structured logging includes all required information
+    Given the retention period is set to 90 days
+    And contact requests exist for cleanup
+    When the cleanupOldContactRequests function runs
+    Then the start log should include:
+      | field              | type     | required |
+      | retentionDays      | number   | yes      |
+      | retentionSource    | string   | yes      |
+      | cutoffTimestamp    | number   | yes      |
+      | cutoffDate         | string   | yes      |
+      | currentTimestamp   | number   | yes      |
+      | currentDate        | string   | yes      |
+      | batchSize          | number   | yes      |
+    And the completion log should include:
+      | field              | type     | required |
+      | retentionDays      | number   | yes      |
+      | retentionSource    | string   | yes      |
+      | totalInspected     | number   | yes      |
+      | totalDeleted       | number   | yes      |
+      | totalPreserved     | number   | yes      |
+      | cutoffTimestamp    | number   | yes      |
+      | cutoffDate         | string   | yes      |
