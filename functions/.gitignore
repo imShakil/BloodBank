@@ -1,2 +1,16 @@
-# functions/node_modules
-functions/.eslintrc.js
+# Paths in this file are relative to functions/, not to the repository root.
+
+node_modules/
+
+# Runtime configuration for Firebase Functions params. These hold the values
+# for CONTACT_REQUEST_RETENTION_DAYS and must never be committed; .env.example
+# is the documented template.
+.env
+.env.*
+!.env.example
+
+# Timestamped configuration backups written by scripts/deploy.sh / deploy.bat
+backups/
+
+# Local lint config
+.eslintrc.js

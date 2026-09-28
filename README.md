@@ -69,3 +69,88 @@ Regards ~ Shakil
 
 
 
+
+---
+
+# Cloud Functions — contact request retention
+
+The Firebase Cloud Functions in [`functions/`](functions/) include
+`cleanupOldContactRequests`, a scheduled job that runs daily at 03:30 UTC and
+deletes old entries under the `contactRequests` node.
+
+## Retention period
+
+| | |
+|---|---|
+| Variable | `CONTACT_REQUEST_RETENTION_DAYS` |
+| Default | **90 days** — declared once in [`functions/lib/retention.js`](functions/lib/retention.js) |
+| Accepted range | `1`–`3650` (integers only) |
+| Invalid values | Rejected at runtime with a logged warning; the 90-day default is used instead |
+
+A value of `0`, a negative number, a fraction or a non-numeric value is never
+honoured: a retention of `0` would place the cutoff at "now" and delete every
+contact request.
+
+### Setting it locally
+
+Create `functions/.env` (gitignored; see
+[`functions/.env.example`](functions/.env.example)):
+
+```
+CONTACT_REQUEST_RETENTION_DAYS=1
+```
+
+Then run the emulator:
+
+```bash
+cd functions
+npm ci
+firebase emulators:start --only functions,database
+```
+
+### Setting it for a deployed project
+
+Values live in `functions/.env.<projectId>`, which the deploy scripts write from
+the environment preset (dev 30, staging 60, production 90):
+
+```bash
+./functions/scripts/deploy.sh production --dry-run   # preview
+./functions/scripts/deploy.sh production             # deploy
+```
+
+Params are resolved at **deploy time** and baked into the deployed function, so
+changing retention always requires a redeploy. See
+[`functions/scripts/README.md`](functions/scripts/README.md).
+
+## Cutoff behaviour
+
+With `cutoff = now - retentionDays × 86400000`:
+
+| `createdAt` | Result |
+|---|---|
+| `< cutoff` | **Deleted** |
+| `== cutoff` | **Kept** — the boundary record is preserved |
+| `> cutoff` | Kept |
+| missing, `null`, or non-numeric | **Deleted** — treated as `0`, i.e. infinitely old |
+
+Every run logs the effective `retentionDays`, whether it came from
+configuration or the default (`retentionSource`), the cutoff, and the
+inspected/deleted/preserved counts:
+
+```bash
+firebase functions:log --only cleanupOldContactRequests
+```
+
+## Running the tests
+
+```bash
+cd functions
+npm ci
+npm test
+```
+
+## Further reading
+
+- [`functions/docs/RETENTION_DESIGN.md`](functions/docs/RETENTION_DESIGN.md) — design, decisions and logging contract
+- [`functions/OPERATIONS_RUNBOOK.md`](functions/OPERATIONS_RUNBOOK.md) — operational procedures
+- [`functions/test/features/contactRequestRetention.feature`](functions/test/features/contactRequestRetention.feature) — behaviour specification

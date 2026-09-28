@@ -13,6 +13,9 @@
 node_modules
 *.log
 package-lock.json
+# Cloud Functions are deployed from a committed lock file so that `npm ci` in
+# CI and in functions/scripts/deploy.sh installs the exact audited tree.
+!functions/package-lock.json
 *.jar
 *.war
 dist
