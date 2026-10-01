@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { IFeedbackForm, IFormError, FeedbackCategory } from '../types/feedback';
 import { validationService } from '../services/validationService';
+import { debounce } from '../utils/debounce';
 
 const initialFormState: IFeedbackForm = {
   firstName: '',
@@ -9,6 +10,8 @@ const initialFormState: IFeedbackForm = {
   feedbackCategory: '',
   feedbackComment: '',
 };
+
+const VALIDATION_DEBOUNCE_DELAY = 300; // milliseconds
 
 export interface IFeedbackFormHookResult {
   formData: IFeedbackForm;
@@ -38,37 +41,62 @@ export const useFeedbackForm = (): IFeedbackFormHookResult => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [lastSubmittedData, setLastSubmittedData] = useState<IFeedbackForm | null>(null);
 
+  // Ref to store the last form data for debounced validation
+  const formDataRef = useRef<IFeedbackForm>(formData);
+
+  // Update ref when form data changes
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
+  // Create debounced validation function (memoized)
+  const debouncedValidate = useMemo(
+    () =>
+      debounce((dataToValidate: IFeedbackForm) => {
+        const fieldErrors = validationService.validateForm(dataToValidate);
+        setErrors(fieldErrors);
+      }, VALIDATION_DEBOUNCE_DELAY),
+    [],
+  );
+
+  // Cleanup debounce on unmount
+  useEffect(() => {
+    return () => {
+      debouncedValidate.cancel();
+    };
+  }, [debouncedValidate]);
+
+  // Optimized: Use functional setState to eliminate formData dependency
   const handleInputChange = useCallback(
     (name: string, value: string) => {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => {
+        const updated = { ...prev, [name]: value };
+
+        // Trigger debounced validation with updated data
+        debouncedValidate(updated);
+
+        return updated;
+      });
 
       // Clear error message when user starts editing
       if (isError) {
         setIsError(false);
         setErrorMessage(null);
       }
-
-      // Real-time validation
-      const updatedFormData = {
-        ...formData,
-        [name]: value,
-      };
-
-      const fieldErrors = validationService.validateForm(updatedFormData);
-      setErrors(fieldErrors);
     },
-    [formData, isError],
+    [isError, debouncedValidate],
   );
 
+  // Optimized: Use functional setState to eliminate formData dependency
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      // Validate entire form
-      const fieldErrors = validationService.validateForm(formData);
+      // Cancel pending validation to use latest data
+      debouncedValidate.cancel();
+
+      // Validate entire form with current data
+      const fieldErrors = validationService.validateForm(formDataRef.current);
 
       if (Object.keys(fieldErrors).length > 0) {
         setErrors(fieldErrors);
@@ -81,13 +109,13 @@ export const useFeedbackForm = (): IFeedbackFormHookResult => {
 
       // All validations passed
       setIsSubmitting(true);
-      setLastSubmittedData(formData);
+      setLastSubmittedData(formDataRef.current);
 
       // Simulate async operation (for future API integration)
       setTimeout(() => {
         try {
           // API call would go here - currently simulated
-          // Example: await submitFeedback(formData);
+          // Example: await submitFeedback(formDataRef.current);
 
           setIsSubmitting(false);
           setIsSuccess(true);
@@ -102,22 +130,50 @@ export const useFeedbackForm = (): IFeedbackFormHookResult => {
           setIsSubmitting(false);
           setIsError(true);
 
-          const message = error instanceof Error
-            ? error.message
-            : 'Failed to submit feedback. Please try again.';
+          const message =
+            error instanceof Error
+              ? error.message
+              : 'Failed to submit feedback. Please try again.';
           setErrorMessage(message);
         }
       }, 300);
     },
-    [formData],
+    [debouncedValidate],
   );
 
   const retry = useCallback(() => {
     if (lastSubmittedData) {
       setFormData(lastSubmittedData);
-      handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>);
+
+      // Cancel pending validations
+      debouncedValidate.cancel();
+
+      // Trigger immediate submission
+      setTimeout(() => {
+        setIsSubmitting(true);
+
+        setTimeout(() => {
+          try {
+            setIsSubmitting(false);
+            setIsSuccess(true);
+
+            setTimeout(() => {
+              setIsSuccess(false);
+              resetForm();
+            }, 4000);
+          } catch (error) {
+            setIsSubmitting(false);
+            setIsError(true);
+            const message =
+              error instanceof Error
+                ? error.message
+                : 'Failed to submit feedback. Please try again.';
+            setErrorMessage(message);
+          }
+        }, 300);
+      }, 0);
     }
-  }, [lastSubmittedData, handleSubmit]);
+  }, [lastSubmittedData, debouncedValidate]);
 
   const clearError = useCallback(() => {
     setIsError(false);
@@ -125,13 +181,14 @@ export const useFeedbackForm = (): IFeedbackFormHookResult => {
   }, []);
 
   const resetForm = useCallback(() => {
+    debouncedValidate.cancel();
     setFormData(initialFormState);
     setErrors({});
     setIsSubmitting(false);
     setIsError(false);
     setErrorMessage(null);
     setLastSubmittedData(null);
-  }, []);
+  }, [debouncedValidate]);
 
   const setSuccessMessage = useCallback((message: string) => {
     setSuccessMessageState(message);
