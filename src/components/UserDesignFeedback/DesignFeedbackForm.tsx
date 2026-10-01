@@ -13,9 +13,13 @@ export const DesignFeedbackForm: React.FC = () => {
     errors,
     isSubmitting,
     isSuccess,
+    isError,
     successMessage,
+    errorMessage,
     handleInputChange,
     handleSubmit,
+    clearError,
+    retry,
   } = useFeedbackForm();
 
   const categoryOptions = Object.entries(FEEDBACK_CATEGORY_LABELS).map(
@@ -32,6 +36,34 @@ export const DesignFeedbackForm: React.FC = () => {
         visible={isSuccess}
         onClose={() => {}}
       />
+
+      {isError && errorMessage && (
+        <div className={styles.errorBanner} role="alert" aria-live="assertive">
+          <div className={styles.errorContent}>
+            <span className={styles.errorIcon}>⚠️</span>
+            <div className={styles.errorText}>
+              <p className={styles.errorMessage}>{errorMessage}</p>
+              <p className={styles.errorHint}>Please try again or contact support if the problem persists.</p>
+            </div>
+            <button
+              type="button"
+              className={styles.errorClose}
+              onClick={clearError}
+              aria-label="Close error message"
+            >
+              ✕
+            </button>
+          </div>
+          <button
+            type="button"
+            className={styles.retryButton}
+            onClick={retry}
+            disabled={isSubmitting}
+          >
+            Retry Submission
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <FormInput
